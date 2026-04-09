@@ -14,22 +14,38 @@ export const JwtAuthFilter = (
   res: Response,
   next: NextFunction
 ): void => {
+  // Extract token from Authorization header (Bearer scheme)
   const token = req.header(stringAuth)?.replace(stringBearer, "");
 
+  // Return 401 for missing token
   if (!token) {
-    res.status(401).json({ message: MessageLib.JWT.NO_TOKEN_AUTHORIZATION });
+    res.status(401).json({
+      success: false,
+      message: MessageLib.JWT.NO_TOKEN_AUTHORIZATION
+    });
     return;
   }
 
   try {
-
+    // Verify token validation and expiration checking
     console.log(MessageLib.JWT.VERIFIED_TOKEN, token);
     const decoded = verifyToken(token);
     console.log(MessageLib.JWT.DECODED_TOKEN, decoded);
+
+    // Attach user info to request object
     req.user = decoded;
     next();
-  } catch (error) {
+  } catch (error: any) {
     console.error(MessageLib.JWT.ERROR_VERIFYING_TOKEN, error);
-    res.status(401).json({ message: MessageLib.JWT.TOKEN_IS_NOT_VALID });
+
+    // Return 401 for invalid/expired tokens
+    const message = error.message === MessageLib.JWT.INVALID_TOKEN
+      ? MessageLib.JWT.TOKEN_IS_NOT_VALID
+      : error.message;
+
+    res.status(401).json({
+      success: false,
+      message
+    });
   }
 };

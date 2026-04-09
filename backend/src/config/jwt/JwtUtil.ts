@@ -5,16 +5,15 @@ import { MessageLib } from "../../utils";
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
-const JWT_EXPIRES_IN: number | undefined = process.env.JWT_EXPIRES_IN
-  ? parseInt(process.env.JWT_EXPIRES_IN)
-  : undefined;
+const JWT_EXPIRATION = process.env.JWT_EXPIRATION || "24h";
 
-export const generateToken = (userId: string): string => {
-  const options: jwt.SignOptions = {
-    expiresIn: "1h",
-  };
-
-  return jwt.sign({ id: userId }, JWT_SECRET, options);
+export const generateToken = (userId: string, email: string, role: string): string => {
+  // Include id, email, and role in JWT payload
+  return jwt.sign(
+    { id: userId, email, role },
+    JWT_SECRET,
+    { expiresIn: JWT_EXPIRATION as any }
+  );
 };
 
 export const verifyToken = (token: string): any => {

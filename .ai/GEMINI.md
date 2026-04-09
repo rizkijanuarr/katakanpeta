@@ -4,6 +4,29 @@ KatakanPeta adalah platform untuk mencari data calon klien dari Google Maps seca
 
 ---
 
+# Update Terakhir 
+* Fitur Auth (Completed)
+    - Sign in
+    - Sign Up
+    - Forgot Password (Di fitur ini perlu di adjusment lagi bro) -> Ubah logicnya menjadi kirim email yang sudah pernah register dan password baru.
+* Fitur yang Lain masih belum tetapi sudah di migrations
+
+# Data Fitur Auth 
+* Role ADMIN
+```json
+{
+  "email": "admin@gmail.com",
+  "password": "password123"
+}
+```
+* Role USER
+```json
+{
+  "email": "user@gmail.com",
+  "password": "password123"
+}
+```
+
 # Role AI
 
 * Kamu adalah seorang Fullstack Engineer.

@@ -8,6 +8,8 @@ import { MessageLib } from './utils';
 import { registerControllers } from './annotations';
 import { LoginControllerImpl, RegisterControllerImpl, UserControllerImpl } from './controller';
 import { LoginServiceImpl, RegisterServiceImpl, UserServiceImplV1 } from './service';
+import { ForgotPasswordControllerImpl } from './controller/auth/impl/ForgotPasswordControllerImpl';
+import { MeControllerImpl } from './controller/auth/impl/MeControllerImpl';
 
 dotenv.config();
 
@@ -28,6 +30,9 @@ const loginController = new LoginControllerImpl(loginService, new Logger('auth-r
 const registerService = new RegisterServiceImpl();
 const registerController = new RegisterControllerImpl(registerService, new Logger('auth-routes'));
 
+const forgotPasswordController = new ForgotPasswordControllerImpl();
+const meController = new MeControllerImpl();
+
 const userService = new UserServiceImplV1(new Logger('user-service'));
 const userController = new UserControllerImpl(userService, new Logger('user-routes'));
 
@@ -35,6 +40,8 @@ const userController = new UserControllerImpl(userService, new Logger('user-rout
 registerControllers(app, [
     loginController,
     registerController,
+    forgotPasswordController,
+    meController,
     userController
 ]);
 
