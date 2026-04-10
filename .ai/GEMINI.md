@@ -8,7 +8,7 @@ KatakanPeta adalah platform untuk mencari data calon klien dari Google Maps seca
 * Fitur Auth (Completed)
     - Sign in
     - Sign Up
-    - Forgot Password (Di fitur ini perlu di adjusment lagi bro) -> Ubah logicnya menjadi kirim email yang sudah pernah register dan password baru.
+    - Forgot Password (Di fitur ini perlu di adjust lagi bro) -> Ubah logicnya menjadi kirim email (Tetapi bukan kirim email asli ya tetapi seperti memasukan email yang sudah pernah di register dan password baru). -> Jadi yang perlu dikirim di request adalah : (email dan password baru)
 * Fitur yang Lain masih belum tetapi sudah di migrations
 
 # Data Fitur Auth 
