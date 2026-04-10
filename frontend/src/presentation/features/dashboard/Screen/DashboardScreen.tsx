@@ -6,25 +6,13 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useDashboardViewModel } from '../ViewModel/DashboardViewModel'
 import {
   Activity,
-  CreditCard,
   Database,
-  TrendingUp,
   Users,
   Clock,
   AlertCircle,
+  CreditCard,
+  TrendingUp,
 } from 'lucide-react'
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-} from 'recharts'
 
 function StatCard({
   title,
@@ -75,18 +63,6 @@ function UserDashboardContent({ data }: { data: any }) {
     }
     return colors[status] || 'bg-gray-500'
   }
-
-  const scrapeTrendData = data?.recent_scrapes?.map((scrape: any) => ({
-    query: scrape.query.length > 20 ? scrape.query.substring(0, 20) + '...' : scrape.query,
-    results: scrape.result_count,
-  })) || []
-
-  const subscriptionData = [
-    { name: 'Days Used', value: data?.subscription?.days_remaining ?? 0 },
-    { name: 'Days Remaining', value: Math.max(0, 30 - (data?.subscription?.days_remaining ?? 0)) },
-  ]
-
-  const COLORS = ['#22c55e', '#e5e7eb']
 
   return (
     <div className='space-y-6'>
@@ -162,69 +138,6 @@ function UserDashboardContent({ data }: { data: any }) {
         />
       </div>
 
-      {/* Charts */}
-      <div className='grid gap-4 md:grid-cols-2'>
-        {/* Scrapes Results Chart */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Scrape Results</CardTitle>
-            <CardDescription>Results from recent scrapes</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {scrapeTrendData.length > 0 ? (
-              <ResponsiveContainer width='100%' height={300}>
-                <BarChart data={scrapeTrendData}>
-                  <CartesianGrid strokeDasharray='3 3' />
-                  <XAxis dataKey='query' fontSize={12} />
-                  <YAxis fontSize={12} />
-                  <Tooltip />
-                  <Bar dataKey='results' fill='#3b82f6' radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            ) : (
-              <div className='flex h-[300px] items-center justify-center text-muted-foreground'>
-                No scrape data yet
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Subscription Usage Pie */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Subscription Usage</CardTitle>
-            <CardDescription>Days used vs remaining</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {data?.subscription?.status === 'ACTIVE' ? (
-              <ResponsiveContainer width='100%' height={300}>
-                <PieChart>
-                  <Pie
-                    data={subscriptionData}
-                    cx='50%'
-                    cy='50%'
-                    labelLine={false}
-                    label={({ name, value }) => `${name}: ${value}`}
-                    outerRadius={80}
-                    fill='#8884d8'
-                    dataKey='value'
-                  >
-                    {subscriptionData.map((_entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            ) : (
-              <div className='flex h-[300px] items-center justify-center text-muted-foreground'>
-                No active subscription
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-
       {/* Recent Scrapes Table */}
       <Card>
         <CardHeader>
@@ -270,13 +183,6 @@ function UserDashboardContent({ data }: { data: any }) {
 }
 
 function AdminDashboardContent({ data }: { data: any }) {
-  const statusData = [
-    { name: 'Active', value: data?.active_subscriptions || 0, color: '#22c55e' },
-    { name: 'Pending', value: data?.pending_approvals || 0, color: '#f59e0b' },
-  ]
-
-  const COLORS = ['#22c55e', '#f59e0b']
-
   return (
     <div className='space-y-6'>
       {/* Stats Cards */}
@@ -328,71 +234,39 @@ function AdminDashboardContent({ data }: { data: any }) {
         </CardContent>
       </Card>
 
-      {/* Charts */}
-      <div className='grid gap-4 md:grid-cols-2'>
-        {/* Subscription Status Pie */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Subscription Overview</CardTitle>
-            <CardDescription>Active vs Pending</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width='100%' height={300}>
-              <PieChart>
-                <Pie
-                  data={statusData}
-                  cx='50%'
-                  cy='50%'
-                  labelLine={false}
-                  label={({ name, value }) => `${name}: ${value}`}
-                  outerRadius={80}
-                  fill='#8884d8'
-                  dataKey='value'
-                >
-                  {statusData.map((_entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-
-        {/* Recent Activity */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Users</CardTitle>
-            <CardDescription>Latest registered users</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {data?.recent_users && data.recent_users.length > 0 ? (
-              <div className='space-y-3'>
-                {data.recent_users.slice(0, 5).map((user: any) => (
-                  <div key={user.id} className='flex items-center justify-between py-2'>
-                    <div className='flex items-center gap-3'>
-                      <div className='h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center'>
-                        <span className='text-sm font-medium'>{user.name?.charAt(0) || 'U'}</span>
-                      </div>
-                      <div>
-                        <p className='text-sm font-medium'>{user.name}</p>
-                        <p className='text-xs text-muted-foreground'>{user.email}</p>
-                      </div>
+      {/* Recent Users */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Recent Users</CardTitle>
+          <CardDescription>Latest registered users</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {data?.recent_users && data.recent_users.length > 0 ? (
+            <div className='space-y-3'>
+              {data.recent_users.slice(0, 5).map((user: any) => (
+                <div key={user.id} className='flex items-center justify-between py-2'>
+                  <div className='flex items-center gap-3'>
+                    <div className='h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center'>
+                      <span className='text-sm font-medium'>{user.name?.charAt(0) || 'U'}</span>
                     </div>
-                    <Badge variant={user.role === 'ADMIN' ? 'default' : 'secondary'}>
-                      {user.role}
-                    </Badge>
+                    <div>
+                      <p className='text-sm font-medium'>{user.name}</p>
+                      <p className='text-xs text-muted-foreground'>{user.email}</p>
+                    </div>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className='flex h-[200px] items-center justify-center text-muted-foreground'>
-                No users yet
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+                  <Badge variant={user.role === 'ADMIN' ? 'default' : 'secondary'}>
+                    {user.role}
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className='flex h-[200px] items-center justify-center text-muted-foreground'>
+              No users yet
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   )
 }
@@ -403,12 +277,7 @@ export function DashboardScreen() {
   if (isLoading) {
     return (
       <>
-        <Header>
-          <div className='ms-auto flex items-center space-x-4'>
-            <ThemeSwitch />
-            <ProfileDropdown />
-          </div>
-        </Header>
+        <Header />
         <Main>
           <div className='space-y-4'>
             <Skeleton className='h-8 w-[200px]' />
@@ -416,10 +285,6 @@ export function DashboardScreen() {
               {[1, 2, 3, 4].map((i) => (
                 <Skeleton key={i} className='h-32' />
               ))}
-            </div>
-            <div className='grid gap-4 md:grid-cols-2'>
-              <Skeleton className='h-[300px]' />
-              <Skeleton className='h-[300px]' />
             </div>
           </div>
         </Main>
@@ -430,12 +295,7 @@ export function DashboardScreen() {
   if (error) {
     return (
       <>
-        <Header>
-          <div className='ms-auto flex items-center space-x-4'>
-            <ThemeSwitch />
-            <ProfileDropdown />
-          </div>
-        </Header>
+        <Header />
         <Main>
           <div className='flex h-[400px] flex-col items-center justify-center text-center'>
             <AlertCircle className='h-12 w-12 text-destructive mb-4' />
