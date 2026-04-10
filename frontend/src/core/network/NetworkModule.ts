@@ -1,12 +1,11 @@
-import { BASE_URL } from '../common/Constant';
 import { handleNetworkError, requestInterceptor, responseInterceptor, setTokenGetter } from './ResponseInterceptor';
 import { checkResponseJson } from './ResponseJsonChecker';
-
 
 import { useAuthStore } from '@/core/store/authStore';
 
 const TIME_OUT = 60000;
 const IS_DEBUG = import.meta.env.DEV;
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 interface RequestConfig {
     method?: string;
@@ -17,17 +16,23 @@ interface RequestConfig {
 
 // ---- NetworkModule (Singleton) ----
 class NetworkModule {
-    private baseUrl: string;
     private timeOut: number;
 
-    constructor(baseUrl: string) {
-        this.baseUrl = baseUrl;
+    constructor() {
         this.timeOut = TIME_OUT;
+
+        if (IS_DEBUG) {
+            console.log('[NetworkModule] Base URL:', BASE_URL);
+        }
 
         // Hubungkan langsung ke store kita (RAM + Storage)
         setTokenGetter(() => {
             return useAuthStore.getState().token || '';
         });
+    }
+
+    private get baseUrl(): string {
+        return BASE_URL;
     }
 
     async request<T>(endpoint: string, config: RequestConfig = {}): Promise<T> {

@@ -3,6 +3,9 @@ import {
   BadgeCheck,
   ChevronsUpDown,
   LogOut,
+  Sparkles,
+  CreditCard,
+  Bell,
 } from 'lucide-react'
 import useDialogState from '@/hooks/use-dialog-state'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
