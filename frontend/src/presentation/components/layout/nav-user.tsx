@@ -1,4 +1,6 @@
+import { Link } from '@tanstack/react-router'
 import {
+  BadgeCheck,
   Check,
   ChevronsUpDown,
   LogOut,
@@ -78,6 +80,15 @@ export function NavUser() {
                   </div>
                 </div>
               </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem asChild>
+                  <Link to='/settings/account'>
+                    <BadgeCheck className='mr-2 h-4 w-4' />
+                    Account
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem onClick={() => setTheme('light')}>
