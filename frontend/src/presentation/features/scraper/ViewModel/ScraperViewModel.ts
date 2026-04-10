@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ScraperRepository, ScrapeRequest, ScrapeResponse, ScrapeLog } from '../Repository/ScraperRepository'
 import { toast } from 'sonner'
 
 export function useScraperViewModel() {
   const [isLoading, setIsLoading] = useState(false)
-  const [logsLoading, setLogsLoading] = useState(false)
+  const [logsLoading, setLogsLoading] = useState(true)
   const [scrapeResult, setScrapeResult] = useState<ScrapeResponse['data'] | null>(null)
   const [logs, setLogs] = useState<ScrapeLog[]>([])
 
@@ -40,6 +40,10 @@ export function useScraperViewModel() {
       setLogsLoading(false)
     }
   }
+
+  useEffect(() => {
+    fetchLogs()
+  }, [])
 
   return {
     isLoading,
