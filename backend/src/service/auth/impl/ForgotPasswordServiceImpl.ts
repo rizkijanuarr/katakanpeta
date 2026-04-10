@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import bcrypt from 'bcrypt';
 import { ForgotPasswordService, ForgotPasswordRequest, ForgotPasswordApiResponse } from '../ForgotPasswordService';
 import { ResponseHelper } from '../../../response';
 import { dbPool } from '../../../database';
@@ -6,7 +6,11 @@ import { dbPool } from '../../../database';
 export class ForgotPasswordServiceImpl implements ForgotPasswordService {
 
   async initiateReset(request: ForgotPasswordRequest): Promise<ForgotPasswordApiResponse> {
-    const { email } = request;
+    const { email, newPassword } = request;
+
+    if (!newPassword) {
+      throw new Error('New password is required');
+    }
 
     // Validate email exists in database
     const { rows } = await dbPool.query(
@@ -18,18 +22,17 @@ export class ForgotPasswordServiceImpl implements ForgotPasswordService {
       throw new Error('Email not found');
     }
 
-    // Generate secure reset token
-    const resetToken = crypto.randomBytes(32).toString('hex');
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
 
-    // TODO: Store token with expiration (implementation detail for future)
-    // For now, we just generate the token and return success
-    // In production, you would:
-    // 1. Store the token in database with expiration time
-    // 2. Send email with reset link containing the token
+    await dbPool.query(
+      'UPDATE users SET password = $1, "modifiedDate" = NOW() WHERE email = $2',
+      [hashedPassword, email]
+    );
 
     return ResponseHelper.success(
-      'Password reset instructions have been sent to your email',
-      { message: 'Password reset initiated successfully' }
+      'Password has been updated successfully',
+      { message: 'Password reset successfully' }
     );
   }
 }

@@ -78,7 +78,7 @@ POST /api/v1/auth/forgot-password
 
 # Role AI
 
-Kamu adalah Fullstack Engineer.
+Kamu adalah Fullstack Engineer
 
 Tugas:
 

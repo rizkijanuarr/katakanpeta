@@ -16,17 +16,22 @@ export class ForgotPasswordControllerImpl implements ForgotPasswordController {
   @PostEndpoint('/forgot-password')
   async forgotPassword(req: Request, res: Response): Promise<void> {
     try {
-      const { email } = req.body;
+      const { email, newPassword } = req.body;
 
       if (!email) {
         res.status(400).json(ResponseHelper.error('Email is required'));
         return;
       }
 
-      const result = await this.forgotPasswordService.initiateReset({ email });
+      if (!newPassword || newPassword.length < 6) {
+        res.status(400).json(ResponseHelper.error('New password is required and must be at least 6 characters'));
+        return;
+      }
+
+      const result = await this.forgotPasswordService.initiateReset({ email, newPassword });
       res.status(200).json(result);
     } catch (error: any) {
-      res.status(400).json(ResponseHelper.error(error.message || 'Failed to initiate password reset'));
+      res.status(400).json(ResponseHelper.error(error.message || 'Failed to update password'));
     }
   }
 }

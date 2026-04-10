@@ -2,6 +2,7 @@ import { BaseResponse } from "../../response";
 
 export interface ForgotPasswordRequest {
   email: string;
+  newPassword?: string;
 }
 
 export interface ForgotPasswordResponse {
