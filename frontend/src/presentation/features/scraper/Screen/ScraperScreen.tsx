@@ -148,6 +148,35 @@ function PlaceDetailDialog({ place, open, onOpenChange }: { place: PlaceRow | nu
             </div>
           )}
 
+          {/* Google Maps Embed */}
+          {place.lat && place.lng && (
+            <div className='flex flex-col gap-2'>
+              <div className='w-32 text-sm text-muted-foreground'>Location</div>
+              <div className='w-full h-[300px] rounded-lg overflow-hidden border'>
+                <iframe
+                  width='100%'
+                  height='100%'
+                  frameBorder='0'
+                  scrolling='no'
+                  marginHeight={0}
+                  marginWidth={0}
+                  src={`https://maps.google.com/maps?q=${place.lat},${place.lng}&z=15&output=embed`}
+                  title={`Map for ${place.title}`}
+                />
+              </div>
+              <a
+                href={`https://www.google.com/maps?q=${place.lat},${place.lng}`}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='text-xs text-blue-500 hover:underline flex items-center gap-1'
+              >
+                <MapPin className='h-3 w-3' />
+                Open in Google Maps
+                <ExternalLink className='h-3 w-3' />
+              </a>
+            </div>
+          )}
+
           {/* Phone */}
           {place.phoneNumber && (
             <div className='flex items-center gap-4'>
