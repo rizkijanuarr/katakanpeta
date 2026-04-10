@@ -5,6 +5,7 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  useSidebar,
 } from '@/components/ui/sidebar'
 import { sidebarData } from './data/sidebar-data'
 import { NavGroup } from './nav-group'
@@ -13,6 +14,7 @@ import { useAuthStore } from '@/core/store/authStore'
 
 export function AppSidebar() {
   const { collapsible, variant } = useLayout()
+  const { state } = useSidebar()
   const userRole = useAuthStore((state) => state.user?.role)
 
   // Filter navGroups based on user role
@@ -21,11 +23,15 @@ export function AppSidebar() {
     return userRole && group.roles.includes(userRole)
   })
 
+  const isCollapsed = state === 'collapsed'
+
   return (
     <Sidebar collapsible={collapsible} variant={variant}>
       <SidebarHeader>
         <div className='flex items-center gap-2 px-4 py-2'>
-          <h1 className='text-lg font-bold'>KatakanPeta</h1>
+          <h1 className='text-lg font-bold'>
+            {isCollapsed ? 'KP' : 'KatakanPeta'}
+          </h1>
         </div>
       </SidebarHeader>
       <SidebarContent>
