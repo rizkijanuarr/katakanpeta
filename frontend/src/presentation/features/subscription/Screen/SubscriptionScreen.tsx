@@ -32,7 +32,7 @@ export function SubscriptionScreen() {
   if (isLoading) {
     return (
       <>
-        <Header />
+        <Header breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Subscription' }]} />
         <Main>
           <div className='space-y-4'>
             <Skeleton className='h-8 w-[200px]' />
@@ -46,7 +46,7 @@ export function SubscriptionScreen() {
 
   return (
     <>
-      <Header />
+      <Header breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Subscription' }]} />
 
       <Main>
         <div className='mb-8 flex items-center justify-between'>

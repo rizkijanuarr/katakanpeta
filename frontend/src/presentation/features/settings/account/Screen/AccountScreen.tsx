@@ -46,7 +46,7 @@ export function AccountScreen() {
   if (isLoading) {
     return (
       <>
-        <Header />
+        <Header breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Account' }]} />
         <Main>
           <div className='mb-8'>
             <Skeleton className='h-8 w-[200px] mb-2' />
@@ -64,7 +64,7 @@ export function AccountScreen() {
 
   return (
     <>
-      <Header />
+      <Header breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Account' }]} />
 
       <Main>
         <div className='mb-8'>

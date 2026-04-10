@@ -271,7 +271,7 @@ export function ScraperScreen() {
 
   return (
     <>
-      <Header />
+      <Header breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Scraper' }]} />
 
       <Main>
         <div className='mb-8'>

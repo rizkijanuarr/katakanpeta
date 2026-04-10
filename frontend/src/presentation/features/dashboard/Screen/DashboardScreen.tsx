@@ -277,7 +277,7 @@ export function DashboardScreen() {
   if (isLoading) {
     return (
       <>
-        <Header />
+        <Header breadcrumbs={[{ label: 'Dashboard' }]} />
         <Main>
           <div className='space-y-4'>
             <Skeleton className='h-8 w-[200px]' />
@@ -295,7 +295,7 @@ export function DashboardScreen() {
   if (error) {
     return (
       <>
-        <Header />
+        <Header breadcrumbs={[{ label: 'Dashboard' }]} />
         <Main>
           <div className='flex h-[400px] flex-col items-center justify-center text-center'>
             <AlertCircle className='h-12 w-12 text-destructive mb-4' />
@@ -309,7 +309,7 @@ export function DashboardScreen() {
 
   return (
     <>
-      <Header />
+      <Header breadcrumbs={[{ label: 'Dashboard' }]} />
 
       <Main>
         <div className='mb-8'>

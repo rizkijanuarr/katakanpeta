@@ -47,7 +47,7 @@ export function TransactionsScreen() {
 
   return (
     <>
-      <Header />
+      <Header breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Transactions' }]} />
 
       <Main>
         <div className='mb-8'>

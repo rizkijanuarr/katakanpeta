@@ -35,7 +35,7 @@ export function UsersScreen() {
 
   return (
     <>
-      <Header />
+      <Header breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Users' }]} />
 
       <Main>
         <div className='mb-8 flex items-center justify-between'>
