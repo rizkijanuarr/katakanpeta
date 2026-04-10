@@ -45,7 +45,7 @@ export interface ScrapeLog {
 
 export const ScraperRepository = {
   scrape: async (data: ScrapeRequest): Promise<ScrapeResponse> => {
-    return await networkModule.request<ScrapeResponse>(AppRoutes.SCRAPER.SCRAP, {
+    return await networkModule.request<ScrapeResponse>(AppRoutes.SCRAPER.SCRAPE, {
       method: 'POST',
       body: data,
       requiresAuth: true,

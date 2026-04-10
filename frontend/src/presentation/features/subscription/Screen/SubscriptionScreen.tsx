@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
@@ -75,7 +76,6 @@ export function SubscriptionScreen() {
           )}
         </div>
 
-        {/* Current Subscription Status */}
         {subscription ? (
           <Card className='mb-6'>
             <CardHeader>
@@ -148,7 +148,6 @@ export function SubscriptionScreen() {
           </Card>
         )}
 
-        {/* Transaction History */}
         <Card>
           <CardHeader>
             <CardTitle>Transaction History</CardTitle>
