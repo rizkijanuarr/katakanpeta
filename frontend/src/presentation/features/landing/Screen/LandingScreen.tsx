@@ -1,5 +1,4 @@
 import { Link } from '@tanstack/react-router'
-import { MapPin, Search, Users, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuthStore } from '@/core/store/authStore'
 
@@ -7,109 +6,85 @@ function Navbar() {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
 
   return (
-    <nav className='border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
-      <div className='container mx-auto flex h-16 items-center justify-between px-4'>
-        <div className='flex items-center gap-2'>
-          <MapPin className='h-6 w-6 text-primary' />
-          <span className='text-xl font-bold'>KatakanPeta</span>
-        </div>
-        <div className='flex items-center gap-4'>
-          {isLoggedIn ? (
-            <Link to='/dashboard'>
-              <Button size='sm'>
-                Kembali ke Dashboard
+    <nav className='flex items-center justify-between border-b px-8 py-6 lg:px-16'>
+      <Link
+        to='/'
+        className='font-["Bebas_Neue"] text-2xl tracking-[-0.5px] text-black hover:opacity-80'
+      >
+        KatakanPeta
+      </Link>
+      <div className='flex items-center gap-7'>
+        {isLoggedIn ? (
+          <Link to='/dashboard'>
+            <Button className='rounded bg-black px-6 py-3 font-medium text-white hover:bg-neutral-800 hover:-translate-y-0.5 transition-all'>
+              Kembali ke Dashboard
+            </Button>
+          </Link>
+        ) : (
+          <>
+            <Link
+              to='/sign-in-2'
+              className='text-base font-medium text-black transition-opacity hover:opacity-60'
+            >
+              Sign in
+            </Link>
+            <Link to='/sign-up'>
+              <Button className='rounded bg-black px-6 py-3 font-medium text-white hover:bg-neutral-800 hover:-translate-y-0.5 transition-all'>
+                Get Started
               </Button>
             </Link>
-          ) : (
-            <>
-              <Link to='/sign-in-2'>
-                <Button variant='ghost' size='sm'>
-                  Sign In
-                </Button>
-              </Link>
-              <Link to='/sign-up'>
-                <Button size='sm'>Get Started</Button>
-              </Link>
-            </>
-          )}
-        </div>
+          </>
+        )}
       </div>
     </nav>
   )
 }
 
 function HeroSection() {
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
+
   return (
-    <section className='container mx-auto flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 py-20 text-center'>
-      <div className='mx-auto max-w-3xl space-y-8'>
-        <div className='space-y-4'>
-          <h1 className='text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl'>
-            Cari Data Klien dari{' '}
-            <span className='text-primary'>Google Maps</span>
-          </h1>
-          <p className='mx-auto max-w-[700px] text-lg text-muted-foreground md:text-xl'>
-            Platform otomatis untuk mencari dan mengumpulkan data calon klien
-            dari Google Maps. Hemat waktu, tingkatkan konversi.
-          </p>
-        </div>
-
-        <div className='flex flex-col items-center justify-center gap-4 sm:flex-row'>
-          <Link to='/sign-up'>
-            <Button size='lg' className='gap-2'>
-              Mulai Sekarang
-              <ArrowRight className='h-4 w-4' />
-            </Button>
-          </Link>
-          <Link to='/sign-in-2'>
-            <Button size='lg' variant='outline'>
-              Sudah Punya Akun
-            </Button>
-          </Link>
-        </div>
-      </div>
-
-      {/* Features */}
-      <div className='mt-20 grid gap-8 sm:grid-cols-2 lg:grid-cols-3'>
-        <div className='flex flex-col items-center space-y-3 rounded-lg border bg-card p-6 shadow-sm'>
-          <div className='flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10'>
-            <Search className='h-6 w-6 text-primary' />
-          </div>
-          <h3 className='text-xl font-semibold'>Pencarian Otomatis</h3>
-          <p className='text-sm text-muted-foreground'>
-            Cari bisnis berdasarkan kata kunci dan lokasi secara otomatis
-          </p>
-        </div>
-
-        <div className='flex flex-col items-center space-y-3 rounded-lg border bg-card p-6 shadow-sm'>
-          <div className='flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10'>
-            <MapPin className='h-6 w-6 text-primary' />
-          </div>
-          <h3 className='text-xl font-semibold'>Data Lengkap</h3>
-          <p className='text-sm text-muted-foreground'>
-            Dapatkan alamat, rating, website, nomor telepon, dan lainnya
-          </p>
-        </div>
-
-        <div className='flex flex-col items-center space-y-3 rounded-lg border bg-card p-6 shadow-sm sm:col-span-2 lg:col-span-1'>
-          <div className='flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10'>
-            <Users className='h-6 w-6 text-primary' />
-          </div>
-          <h3 className='text-xl font-semibold'>Tingkatkan Konversi</h3>
-          <p className='text-sm text-muted-foreground'>
-            Temukan calon klien potensial dengan data yang akurat
-          </p>
-        </div>
-      </div>
-    </section>
+    <main
+      className='flex flex-1 flex-col items-center justify-center px-8 py-20 text-center lg:px-8 lg:py-24 animate-[fadeUp_0.7s_ease_both]'
+      style={{
+        animation: 'fadeUp 0.7s ease both',
+      }}
+    >
+      <h1 className='font-["Bebas_Neue"] mb-7 max-w-[820px] text-[clamp(3.5rem,9vw,6.5rem)] leading-[1.0] tracking-[1px] text-black'>
+        Cari data klien seharga esteh di warung!
+      </h1>
+      <p className='mx-auto mb-10 max-w-[520px] text-[clamp(1rem,2vw,1.2rem)] leading-[1.6] text-neutral-500'>
+        KatakanPeta membantu kamu menemukan ratusan calon klien dari Google Maps secara otomatis.
+      </p>
+      {isLoggedIn ? (
+        <Link to='/dashboard'>
+          <Button className='rounded bg-black px-10 py-4 text-base font-medium text-white hover:bg-neutral-800 hover:-translate-y-0.5 hover:shadow-lg transition-all'>
+            Kembali ke Dashboard
+          </Button>
+        </Link>
+      ) : (
+        <Link to='/sign-up'>
+          <Button className='rounded bg-black px-10 py-4 text-base font-medium text-white hover:bg-neutral-800 hover:-translate-y-0.5 hover:shadow-lg transition-all'>
+            Mulai Sekarang
+          </Button>
+        </Link>
+      )}
+    </main>
   )
 }
 
 function Footer() {
   return (
-    <footer className='border-t bg-muted/40'>
-      <div className='container mx-auto px-4 py-8 text-center text-sm text-muted-foreground'>
-        <p>© 2026 KatakanPeta. All rights reserved.</p>
-      </div>
+    <footer className='border-t px-8 py-5 text-center text-sm text-neutral-500 lg:px-16'>
+      Crafted by{' '}
+      <a
+        href='https://www.rzkjanuarr.com'
+        target='_blank'
+        rel='noopener noreferrer'
+        className='text-neutral-500 transition-colors hover:text-black'
+      >
+        www.rzkjanuarr.com
+      </a>
     </footer>
   )
 }
@@ -117,10 +92,14 @@ function Footer() {
 export function LandingScreen() {
   return (
     <div className='flex min-h-screen flex-col'>
+      <style>{`
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(28px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
       <Navbar />
-      <main className='flex-1'>
-        <HeroSection />
-      </main>
+      <HeroSection />
       <Footer />
     </div>
   )
