@@ -1,19 +1,13 @@
 
+import { networkModule } from '@/core/network/NetworkModule'
+import { AppRoutes } from '@/core/common/AppRoutes'
 import { SignUpResponse } from '../Response/SignUpResponse'
 
 export const SignUpRepository = {
-  register: async (credentials: any): Promise<SignUpResponse> => {
-    // Simulasi loading 2 detik
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          message: "Registration successful",
-          user: {
-            id: "u-12345",
-            email: credentials.email,
-          }
-        })
-      }, 2000)
+  register: async (data: { name: string; email: string; password: string }): Promise<void> => {
+    await networkModule.request<SignUpResponse>(AppRoutes.AUTH.REGISTER, {
+      method: 'POST',
+      body: data,
     })
   }
 }

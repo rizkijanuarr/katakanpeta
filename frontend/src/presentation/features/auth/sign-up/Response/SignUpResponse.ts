@@ -1,7 +1,11 @@
 export interface SignUpResponse {
+  success: boolean
   message: string
-  user: {
+  data: {
     id: string
+    name: string
     email: string
+    role: string
+    token: string
   }
 }
