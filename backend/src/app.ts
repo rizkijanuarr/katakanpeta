@@ -6,8 +6,8 @@ import { Logger, requestLogger } from './config';
 import { MessageLib } from './utils';
 
 import { registerControllers } from './annotations';
-import { LoginControllerImpl, RegisterControllerImpl, UserControllerImpl, TransactionControllerImplV1 } from './controller';
-import { LoginServiceImpl, RegisterServiceImpl, UserServiceImplV1, TransactionServiceImplV1 } from './service';
+import { LoginControllerImpl, RegisterControllerImpl, UserControllerImpl, TransactionControllerImplV1, ScrapeControllerImplV1 } from './controller';
+import { LoginServiceImpl, RegisterServiceImpl, UserServiceImplV1, TransactionServiceImplV1, ScrapeServiceImplV1 } from './service';
 import { ForgotPasswordControllerImpl } from './controller/auth/impl/ForgotPasswordControllerImpl';
 import { MeControllerImpl } from './controller/auth/impl/MeControllerImpl';
 
@@ -39,6 +39,9 @@ const userController = new UserControllerImpl(userService, new Logger('user-rout
 const transactionService = new TransactionServiceImplV1();
 const transactionController = new TransactionControllerImplV1(transactionService, new Logger('transaction-routes'));
 
+const scrapeService = new ScrapeServiceImplV1();
+const scrapeController = new ScrapeControllerImplV1(scrapeService, new Logger('scrape-routes'));
+
 // Register Routes via Decorators Loader
 registerControllers(app, [
     loginController,
@@ -46,7 +49,8 @@ registerControllers(app, [
     forgotPasswordController,
     meController,
     userController,
-    transactionController
+    transactionController,
+    scrapeController
 ]);
 
 app.listen(PORT, () => {

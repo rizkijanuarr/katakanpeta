@@ -10,3 +10,6 @@ export * from './v1/impl/UserServiceImplV1';
 
 export * from './v1/TransactionServiceV1';
 export * from './v1/impl/TransactionServiceImplV1';
+
+export * from './v1/ScrapeServiceV1';
+export * from './v1/impl/ScrapeServiceImplV1';

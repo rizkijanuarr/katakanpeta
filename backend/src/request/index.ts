@@ -3,3 +3,4 @@ export * from './auth/RegisterRequest';
 
 export * from './v1/UserRequestV1';
 export * from './v1/TransactionRequestV1';
+export * from './v1/ScrapeRequestV1';
