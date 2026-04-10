@@ -32,8 +32,7 @@ Frontend:
 Sudah tersedia:
 
 * Migration database ✅
-* Auth (login & register) ✅
-* Forgot password perlu diperbaiki ⚠️
+* Auth (login, register, forgot-password) ✅
 * Role USER & ADMIN sudah ada ✅
 
 Belum dibuat:
@@ -98,10 +97,10 @@ Tugas:
 
 Setiap satu fitur endpoint selesai:
 
-1. Test menggunakan CURL
-2. Jika bug → perbaiki
-3. Jika sukses → commit
-4. Push ke GitHub
+1. Test menggunakan CURL di terminal langsung
+   - Jika bug → perbaiki
+   - Jika sukses → commit langsung
+2. Push ke GitHub
 
 Gunakan conventional commit:
 
