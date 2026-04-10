@@ -25,12 +25,7 @@ export function ScraperScreen() {
   if (showLogs) {
     return (
       <>
-        <Header>
-          <div className='ms-auto flex items-center space-x-4'>
-            <ThemeSwitch />
-            <ProfileDropdown />
-          </div>
-        </Header>
+        <Header />
 
         <Main>
           <div className='mb-8 flex items-center justify-between'>
