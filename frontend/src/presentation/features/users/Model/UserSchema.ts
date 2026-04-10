@@ -1,30 +1,35 @@
-import { z } from 'zod'
+export interface User {
+  id: string
+  name: string
+  email: string
+  role: 'ADMIN' | 'USER'
+  active: boolean
+  createdDate: string
+  modifiedDate: string | null
+}
 
-const userStatusSchema = z.union([
-  z.literal('active'),
-  z.literal('inactive'),
-  z.literal('invited'),
-  z.literal('suspended'),
-])
-export type UserStatus = z.infer<typeof userStatusSchema>
+export interface CreateUserRequest {
+  name: string
+  email: string
+  password: string
+  role: 'ADMIN' | 'USER'
+}
 
-const userRoleSchema = z.union([
-  z.literal('superadmin'),
-  z.literal('admin'),
-  z.literal('cashier'),
-  z.literal('manager'),
-])
+export interface UpdateUserRequest {
+  name?: string
+  email?: string
+  password?: string
+  role?: 'ADMIN' | 'USER'
+}
 
-const _userSchema = z.object({
-  id: z.string(),
-  firstName: z.string(),
-  lastName: z.string(),
-  username: z.string(),
-  email: z.string(),
-  phoneNumber: z.string(),
-  status: userStatusSchema,
-  role: userRoleSchema,
-  createdAt: z.coerce.date(),
-  updatedAt: z.coerce.date(),
-})
-export type User = z.infer<typeof _userSchema>
+export interface UserListResponse {
+  success: boolean
+  message: string
+  data: User[]
+}
+
+export interface UserResponse {
+  success: boolean
+  message: string
+  data: User
+}

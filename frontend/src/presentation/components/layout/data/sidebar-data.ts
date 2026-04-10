@@ -35,6 +35,11 @@ export const sidebarData: SidebarData = {
           url: '/dashboard',
           icon: LayoutDashboard,
         },
+      ],
+    },
+    {
+      title: 'Admin',
+      items: [
         {
           title: 'Users',
           url: '/users',
