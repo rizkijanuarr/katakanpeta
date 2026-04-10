@@ -1,13 +1,7 @@
 import {
-  Construction,
   LayoutDashboard,
-  FileX,
-  HelpCircle,
-  Lock,
-  ServerOff,
   Settings,
   Wrench,
-  UserX,
   Users,
   Command,
 } from 'lucide-react'
@@ -60,36 +54,6 @@ export const sidebarData: SidebarData = {
               title: 'Account',
               url: '/settings/account',
               icon: Wrench,
-            },
-            {
-              title: 'Help Center',
-              url: '/help-center',
-              icon: HelpCircle,
-            },
-            {
-              title: 'Unauthorized',
-              url: '/errors/unauthorized',
-              icon: Lock,
-            },
-            {
-              title: 'Forbidden',
-              url: '/errors/forbidden',
-              icon: UserX,
-            },
-            {
-              title: 'Not Found',
-              url: '/errors/not-found',
-              icon: FileX,
-            },
-            {
-              title: 'Internal Server Error',
-              url: '/errors/internal-server-error',
-              icon: ServerOff,
-            },
-            {
-              title: 'Maintenance Error',
-              url: '/errors/maintenance-error',
-              icon: Construction,
             },
           ],
         },
