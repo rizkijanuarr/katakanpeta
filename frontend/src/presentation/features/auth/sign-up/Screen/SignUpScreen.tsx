@@ -28,7 +28,7 @@ export function SignUpScreen() {
           </div>
         </div>
         <div className='mx-auto flex w-full max-w-sm flex-col justify-center space-y-2'>
-          <div className='flex flex-col space-y-2 text-start'>
+          {/* <div className='flex flex-col space-y-2 text-start'>
             <h2 className='text-lg font-semibold tracking-tight'>Create an account</h2>
             <p className='text-sm text-muted-foreground'>
               Enter your name, email and password to create an account. <br />
@@ -40,7 +40,7 @@ export function SignUpScreen() {
                 Sign In
               </Link>
             </p>
-          </div>
+          </div> */}
 
           <Form {...form}>
             <form onSubmit={onSubmit} className='grid gap-3'>
@@ -86,30 +86,16 @@ export function SignUpScreen() {
               <Button className='mt-2' disabled={isLoading}>
                 {isLoading ? 'Creating Account...' : 'Create Account'}
               </Button>
-
-              <div className='relative my-2'>
-                {/* <div className='absolute inset-0 flex items-center'>
-                  <span className='w-full border-t' />
-                </div> */}
-                {/* <div className='relative flex justify-center text-xs uppercase'>
-                  <span className='bg-background px-2 text-muted-foreground'>
-                    Or continue with
-                  </span>
-                </div> */}
-              </div>
             </form>
           </Form>
-
-          <p className='px-8 text-center text-sm text-muted-foreground'>
-            By creating an account, you agree to our{' '}
-            <a href='/terms' className='underline underline-offset-4 hover:text-primary'>
-              Terms of Service
-            </a>{' '}
-            and{' '}
-            <a href='/privacy' className='underline underline-offset-4 hover:text-primary'>
-              Privacy Policy
-            </a>
-            .
+          <p className='mx-auto mt-2 px-8 text-center text-sm text-balance text-muted-foreground'>
+            I has account?{' '}
+            <Link
+              to='/sign-in-2'
+              className='underline underline-offset-4 hover:text-primary'
+            >
+              Coming here!
+            </Link>
           </p>
         </div>
       </div>

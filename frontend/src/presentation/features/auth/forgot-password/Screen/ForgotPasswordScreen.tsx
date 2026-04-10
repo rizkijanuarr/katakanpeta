@@ -28,13 +28,6 @@ export function ForgotPasswordScreen() {
           </div>
         </div>
         <div className='mx-auto flex w-full max-w-sm flex-col justify-center space-y-2'>
-          <div className='flex flex-col space-y-2 text-start'>
-            <h2 className='text-lg font-semibold tracking-tight'>Reset Password</h2>
-            <p className='text-sm text-muted-foreground'>
-              Enter your email and new password to <br />
-              reset your account password.
-            </p>
-          </div>
 
           <Form {...form}>
             <form onSubmit={onSubmit} className='grid gap-2'>
@@ -45,7 +38,7 @@ export function ForgotPasswordScreen() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder='name@example.com' {...field} />
+                      <Input placeholder='email@example.com' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -80,7 +73,7 @@ export function ForgotPasswordScreen() {
             </form>
           </Form>
 
-          <p className='mx-auto px-8 text-center text-sm text-balance text-muted-foreground'>
+          <p className='mx-auto mt-2 px-8 text-center text-sm text-balance text-muted-foreground'>
             Remember your password?{' '}
             <Link
               to='/sign-in-2'

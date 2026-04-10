@@ -27,13 +27,6 @@ export function SignInScreen() {
           </div>
         </div>
         <div className='mx-auto flex w-full max-w-sm flex-col justify-center space-y-2'>
-          <div className='flex flex-col space-y-2 text-start'>
-            <h2 className='text-lg font-semibold tracking-tight'>Sign in</h2>
-            <p className='text-sm text-muted-foreground'>
-              Enter your email and password below <br />
-              to log into your account
-            </p>
-          </div>
 
           {/* Form dipindahkan langsung ke dalam Screen dan digerakkan oleh ViewModel */}
           <Form {...form}>
@@ -77,17 +70,14 @@ export function SignInScreen() {
               </Button>
             </form>
           </Form>
-
-          <p className='px-8 text-center text-sm text-muted-foreground'>
-            By clicking sign in, you agree to our{' '}
-            <a href='/terms' className='underline underline-offset-4 hover:text-primary'>
-              Terms of Service
-            </a>{' '}
-            and{' '}
-            <a href='/privacy' className='underline underline-offset-4 hover:text-primary'>
-              Privacy Policy
-            </a>
-            .
+          <p className='mx-auto mt-2 px-8 text-center text-sm text-balance text-muted-foreground'>
+            Do u not have a account?{' '}
+            <Link
+              to='/sign-up'
+              className='underline underline-offset-4 hover:text-primary'
+            >
+              Coming here!
+            </Link>
           </p>
         </div>
       </div>
