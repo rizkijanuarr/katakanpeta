@@ -1,8 +1,11 @@
 import { Link } from '@tanstack/react-router'
 import { MapPin, Search, Users, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useAuthStore } from '@/core/store/authStore'
 
 function Navbar() {
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
+
   return (
     <nav className='border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
       <div className='container mx-auto flex h-16 items-center justify-between px-4'>
@@ -11,14 +14,24 @@ function Navbar() {
           <span className='text-xl font-bold'>KatakanPeta</span>
         </div>
         <div className='flex items-center gap-4'>
-          <Link to='/sign-in-2'>
-            <Button variant='ghost' size='sm'>
-              Sign In
-            </Button>
-          </Link>
-          <Link to='/sign-up'>
-            <Button size='sm'>Get Started</Button>
-          </Link>
+          {isLoggedIn ? (
+            <Link to='/dashboard'>
+              <Button size='sm'>
+                Kembali ke Dashboard
+              </Button>
+            </Link>
+          ) : (
+            <>
+              <Link to='/sign-in-2'>
+                <Button variant='ghost' size='sm'>
+                  Sign In
+                </Button>
+              </Link>
+              <Link to='/sign-up'>
+                <Button size='sm'>Get Started</Button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>
