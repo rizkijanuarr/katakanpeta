@@ -1,12 +1,12 @@
-import { Link } from '@tanstack/react-router'
 import {
-  BadgeCheck,
+  Check,
   ChevronsUpDown,
   LogOut,
-  Sparkles,
-  CreditCard,
-  Bell,
+  Moon,
+  Sun,
 } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { useTheme } from '@/context/theme-provider'
 import useDialogState from '@/hooks/use-dialog-state'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -30,6 +30,7 @@ import { useAuthStore } from '@/core/store/authStore'
 export function NavUser() {
   const { isMobile } = useSidebar()
   const [open, setOpen] = useDialogState()
+  const { theme, setTheme } = useTheme()
   const authUser = useAuthStore((state) => state.user)
 
   const user = {
@@ -77,33 +78,18 @@ export function NavUser() {
                   </div>
                 </div>
               </DropdownMenuLabel>
-              {/* <DropdownMenuSeparator /> */}
-              <DropdownMenuGroup>
-                {/* <DropdownMenuItem>
-                  <Sparkles />
-                  Upgrade to Pro
-                </DropdownMenuItem> */}
-              </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem asChild>
-                  <Link to='/settings/account'>
-                    <BadgeCheck />
-                    Account
-                  </Link>
+                <DropdownMenuItem onClick={() => setTheme('light')}>
+                  <Sun className='mr-2 h-4 w-4' />
+                  <span>Light</span>
+                  <Check size={14} className={cn('ml-auto', theme !== 'light' && 'hidden')} />
                 </DropdownMenuItem>
-                {/* <DropdownMenuItem asChild>
-                  <Link to='/settings'>
-                    <CreditCard />
-                    Billing
-                  </Link>
-                </DropdownMenuItem> */}
-                {/* <DropdownMenuItem asChild>
-                  <Link to='/settings/notifications'>
-                    <Bell />
-                    Notifications
-                  </Link>
-                </DropdownMenuItem> */}
+                <DropdownMenuItem onClick={() => setTheme('dark')}>
+                  <Moon className='mr-2 h-4 w-4' />
+                  <span>Dark</span>
+                  <Check size={14} className={cn('ml-auto', theme !== 'dark' && 'hidden')} />
+                </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuItem
