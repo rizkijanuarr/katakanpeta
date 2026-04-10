@@ -9,3 +9,6 @@ export * from './auth/impl/MeControllerImpl';
 
 export * from './v1/UserControllerV1';
 export * from './v1/impl/UserControllerImplV1';
+
+export * from './v1/TransactionControllerV1';
+export * from './v1/impl/TransactionControllerImplV1';

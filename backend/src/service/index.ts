@@ -7,3 +7,6 @@ export * from './auth/impl/ForgotPasswordServiceImpl';
 
 export * from './v1/UserServiceV1';
 export * from './v1/impl/UserServiceImplV1';
+
+export * from './v1/TransactionServiceV1';
+export * from './v1/impl/TransactionServiceImplV1';
