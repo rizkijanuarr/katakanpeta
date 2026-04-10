@@ -9,9 +9,18 @@ import {
 import { sidebarData } from './data/sidebar-data'
 import { NavGroup } from './nav-group'
 import { NavUser } from './nav-user'
+import { useAuthStore } from '@/core/store/authStore'
 
 export function AppSidebar() {
   const { collapsible, variant } = useLayout()
+  const userRole = useAuthStore((state) => state.user?.role)
+
+  // Filter navGroups based on user role
+  const filteredNavGroups = sidebarData.navGroups.filter((group) => {
+    if (!group.roles || group.roles.length === 0) return true
+    return userRole && group.roles.includes(userRole)
+  })
+
   return (
     <Sidebar collapsible={collapsible} variant={variant}>
       <SidebarHeader>
@@ -20,7 +29,7 @@ export function AppSidebar() {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        {sidebarData.navGroups.map((props) => (
+        {filteredNavGroups.map((props) => (
           <NavGroup key={props.title} {...props} />
         ))}
       </SidebarContent>

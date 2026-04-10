@@ -39,6 +39,7 @@ export const sidebarData: SidebarData = {
     },
     {
       title: 'Admin',
+      roles: ['ADMIN'], // Only ADMIN can see this group
       items: [
         {
           title: 'Users',
