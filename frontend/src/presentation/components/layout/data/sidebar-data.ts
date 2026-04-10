@@ -1,7 +1,5 @@
 import {
   LayoutDashboard,
-  Settings,
-  Wrench,
   Users,
   Command,
   Search,
@@ -57,22 +55,6 @@ export const sidebarData: SidebarData = {
           title: 'Transactions',
           url: '/transactions',
           icon: FileText,
-        },
-      ],
-    },
-    {
-      title: 'Other',
-      items: [
-        {
-          title: 'Settings',
-          icon: Settings,
-          items: [
-            {
-              title: 'Account',
-              url: '/settings/account',
-              icon: Wrench,
-            },
-          ],
         },
       ],
     },

@@ -77,12 +77,12 @@ export function NavUser() {
                   </div>
                 </div>
               </DropdownMenuLabel>
-              <DropdownMenuSeparator />
+              {/* <DropdownMenuSeparator /> */}
               <DropdownMenuGroup>
-                <DropdownMenuItem>
+                {/* <DropdownMenuItem>
                   <Sparkles />
                   Upgrade to Pro
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
@@ -92,18 +92,18 @@ export function NavUser() {
                     Account
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
+                {/* <DropdownMenuItem asChild>
                   <Link to='/settings'>
                     <CreditCard />
                     Billing
                   </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
+                </DropdownMenuItem> */}
+                {/* <DropdownMenuItem asChild>
                   <Link to='/settings/notifications'>
                     <Bell />
                     Notifications
                   </Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuItem
