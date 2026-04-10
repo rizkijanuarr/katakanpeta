@@ -1,12 +1,13 @@
+import { networkModule } from '@/core/network/NetworkModule'
+import { AppRoutes } from '@/core/common/AppRoutes'
 import { ForgotPasswordResponse } from '../Response/ForgotPasswordResponse'
-import { sleep } from '@/lib/utils'
 
 export const ForgotPasswordRepository = {
-  requestReset: async (email: string): Promise<ForgotPasswordResponse> => {
-    // Simulasi request network
-    await sleep(2000)
-    return {
-      message: `Password reset link sent to ${email}`,
-    }
+  requestReset: async (data: { email: string; newPassword: string }): Promise<ForgotPasswordResponse> => {
+    const response = await networkModule.request<ForgotPasswordResponse>(AppRoutes.AUTH.FORGOT_PASSWORD, {
+      method: 'POST',
+      body: data,
+    })
+    return response
   }
 }

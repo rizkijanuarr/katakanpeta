@@ -7,9 +7,13 @@ import { toast } from 'sonner'
 import { ForgotPasswordRepository } from '../Repository/ForgotPasswordRepository'
 
 export const forgotPasswordSchema = z.object({
-  email: z.email({
+  email: z.string().email({
     error: (iss) => (iss.input === '' ? 'Please enter your email' : undefined),
   }),
+  newPassword: z
+    .string()
+    .min(1, 'Please enter a new password')
+    .min(7, 'Password must be at least 7 characters long'),
 })
 
 export type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>
@@ -20,20 +24,25 @@ export function useForgotPasswordViewModel() {
 
   const form = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordSchema),
-    defaultValues: { email: '' },
+    defaultValues: { email: '', newPassword: '' },
   })
 
   const onSubmit = async (data: ForgotPasswordFormValues) => {
     setIsLoading(true)
     try {
-      const response = await ForgotPasswordRepository.requestReset(data.email)
-      toast.success(response.message)
-      navigate({ to: '/sign-in-2' }) // Route to sign-in or OTP depending on flow
-    } catch (error) {
-      toast.error('Failed to send reset link')
+      await ForgotPasswordRepository.requestReset(data)
+      
+      toast.success('Password reset successful', {
+        description: 'Please login with your new password',
+      })
+      
+      navigate({ to: '/sign-in-2' })
+    } catch (error: any) {
+      toast.error('Password reset failed', {
+        description: error?.message || 'Failed to reset password',
+      })
     } finally {
       setIsLoading(false)
-      form.reset()
     }
   }
 

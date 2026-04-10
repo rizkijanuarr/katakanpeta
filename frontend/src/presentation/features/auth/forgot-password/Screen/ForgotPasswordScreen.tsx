@@ -12,6 +12,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { PasswordInput } from '@/components/password-input'
 import { useForgotPasswordViewModel } from '../ViewModel/ForgotPasswordViewModel'
 
 export function ForgotPasswordScreen() {
@@ -23,18 +24,18 @@ export function ForgotPasswordScreen() {
         <div className='mx-auto flex w-full flex-col justify-center space-y-2 py-8 sm:w-[480px] sm:p-8'>
           <div className='mb-4 flex items-center justify-center'>
             <Logo className='me-2' />
-            <h1 className='text-xl font-medium'>Shadcn Admin</h1>
+            <h1 className='text-xl font-medium'>KatakanPeta</h1>
           </div>
         </div>
         <div className='mx-auto flex w-full max-w-sm flex-col justify-center space-y-2'>
           <div className='flex flex-col space-y-2 text-start'>
-            <h2 className='text-lg font-semibold tracking-tight'>Forgot Password</h2>
+            <h2 className='text-lg font-semibold tracking-tight'>Reset Password</h2>
             <p className='text-sm text-muted-foreground'>
-              Enter your registered email and <br /> we will send you a link to
-              reset your password.
+              Enter your email and new password to <br />
+              reset your account password.
             </p>
           </div>
-          
+
           <Form {...form}>
             <form onSubmit={onSubmit} className='grid gap-2'>
               <FormField
@@ -50,22 +51,43 @@ export function ForgotPasswordScreen() {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name='newPassword'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>New Password</FormLabel>
+                    <FormControl>
+                      <PasswordInput placeholder='********' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <Button className='mt-2' disabled={isLoading}>
-                Continue
-                {isLoading ? <Loader2 className='animate-spin' /> : <ArrowRight />}
+                {isLoading ? (
+                  <>
+                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                    Resetting...
+                  </>
+                ) : (
+                  <>
+                    Reset Password
+                    <ArrowRight className='ml-2 h-4 w-4' />
+                  </>
+                )}
               </Button>
             </form>
           </Form>
 
           <p className='mx-auto px-8 text-center text-sm text-balance text-muted-foreground'>
-            Don't have an account?{' '}
+            Remember your password?{' '}
             <Link
-              to='/sign-up'
+              to='/sign-in-2'
               className='underline underline-offset-4 hover:text-primary'
             >
-              Sign up
+              Back to Sign In
             </Link>
-            .
           </p>
         </div>
       </div>

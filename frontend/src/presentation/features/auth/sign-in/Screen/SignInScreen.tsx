@@ -1,4 +1,5 @@
 import { Logo } from '@/assets/logo'
+import { Link } from '@tanstack/react-router'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -22,7 +23,7 @@ export function SignInScreen() {
         <div className='mx-auto flex w-full flex-col justify-center space-y-2 py-8 sm:w-[480px] sm:p-8'>
           <div className='mb-4 flex items-center justify-center'>
             <Logo className='me-2' />
-            <h1 className='text-xl font-medium'>Shadcn Admin</h1>
+            <h1 className='text-xl font-medium'>KatakanPeta</h1>
           </div>
         </div>
         <div className='mx-auto flex w-full max-w-sm flex-col justify-center space-y-2'>
@@ -33,7 +34,7 @@ export function SignInScreen() {
               to log into your account
             </p>
           </div>
-          
+
           {/* Form dipindahkan langsung ke dalam Screen dan digerakkan oleh ViewModel */}
           <Form {...form}>
             <form onSubmit={onSubmit} className='grid gap-3'>
@@ -55,7 +56,15 @@ export function SignInScreen() {
                 name='password'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <div className='flex items-center justify-between'>
+                      <FormLabel>Password</FormLabel>
+                      <Link
+                        to='/forgot-password'
+                        className='text-sm text-muted-foreground underline underline-offset-4 hover:text-primary'
+                      >
+                        Forgot password?
+                      </Link>
+                    </div>
                     <FormControl>
                       <PasswordInput placeholder='********' {...field} />
                     </FormControl>
