@@ -2,6 +2,7 @@ import { useLayout } from '@/context/layout-provider'
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar'
@@ -26,6 +27,11 @@ export function AppSidebar() {
           <NavGroup key={props.title} {...props} />
         ))}
       </SidebarContent>
+      <SidebarFooter>
+        <p className='px-2 text-xs text-sidebar-foreground/60 group-data-[collapsible=icon]:hidden'>
+          OpenAI Codex
+        </p>
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   )

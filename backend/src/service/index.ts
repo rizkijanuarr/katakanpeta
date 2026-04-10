@@ -13,3 +13,6 @@ export * from './v1/impl/TransactionServiceImplV1';
 
 export * from './v1/ScrapeServiceV1';
 export * from './v1/impl/ScrapeServiceImplV1';
+
+export * from './v1/DashboardServiceV1';
+export * from './v1/impl/DashboardServiceImplV1';

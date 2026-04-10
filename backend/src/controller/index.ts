@@ -15,3 +15,6 @@ export * from './v1/impl/TransactionControllerImplV1';
 
 export * from './v1/ScrapeControllerV1';
 export * from './v1/impl/ScrapeControllerImplV1';
+
+export * from './v1/DashboardControllerV1';
+export * from './v1/impl/DashboardControllerImplV1';

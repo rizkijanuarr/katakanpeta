@@ -6,8 +6,8 @@ import { Logger, requestLogger } from './config';
 import { MessageLib } from './utils';
 
 import { registerControllers } from './annotations';
-import { LoginControllerImpl, RegisterControllerImpl, UserControllerImpl, TransactionControllerImplV1, ScrapeControllerImplV1 } from './controller';
-import { LoginServiceImpl, RegisterServiceImpl, UserServiceImplV1, TransactionServiceImplV1, ScrapeServiceImplV1 } from './service';
+import { LoginControllerImpl, RegisterControllerImpl, UserControllerImpl, TransactionControllerImplV1, ScrapeControllerImplV1, DashboardControllerImplV1 } from './controller';
+import { LoginServiceImpl, RegisterServiceImpl, UserServiceImplV1, TransactionServiceImplV1, ScrapeServiceImplV1, DashboardServiceImplV1 } from './service';
 import { ForgotPasswordControllerImpl } from './controller/auth/impl/ForgotPasswordControllerImpl';
 import { MeControllerImpl } from './controller/auth/impl/MeControllerImpl';
 
@@ -42,6 +42,9 @@ const transactionController = new TransactionControllerImplV1(transactionService
 const scrapeService = new ScrapeServiceImplV1();
 const scrapeController = new ScrapeControllerImplV1(scrapeService, new Logger('scrape-routes'));
 
+const dashboardService = new DashboardServiceImplV1();
+const dashboardController = new DashboardControllerImplV1(dashboardService, new Logger('dashboard-routes'));
+
 // Register Routes via Decorators Loader
 registerControllers(app, [
     loginController,
@@ -50,7 +53,8 @@ registerControllers(app, [
     meController,
     userController,
     transactionController,
-    scrapeController
+    scrapeController,
+    dashboardController
 ]);
 
 app.listen(PORT, () => {
