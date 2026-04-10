@@ -102,9 +102,9 @@ function PlaceDetailDialog({ place, open, onOpenChange }: { place: PlaceRow | nu
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className='max-w-2xl max-h-[80vh] overflow-y-auto'>
         <DialogHeader>
-          <DialogTitle className='flex items-center gap-3'>
+          <DialogTitle className='flex items-start gap-4'>
             {place.thumbnailUrl && (
-              <img src={place.thumbnailUrl} alt={place.title} className='h-12 w-12 rounded-lg object-cover' />
+              <img src={place.thumbnailUrl} alt={place.title} className='h-16 w-16 rounded-lg object-cover flex-shrink-0' />
             )}
             <div>
               {place.title}
@@ -348,35 +348,25 @@ export function ScraperScreen() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Thumbnail</TableHead>
+                      <TableHead>#</TableHead>
                       <TableHead>Title</TableHead>
                       <TableHead>Type</TableHead>
                       <TableHead>Rating</TableHead>
+                      <TableHead>Query</TableHead>
                       <TableHead className='text-right'>Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {places.map((place) => (
                       <TableRow key={place.id}>
-                        <TableCell>
-                          {place.thumbnailUrl ? (
-                            <img
-                              src={place.thumbnailUrl}
-                              alt={place.title}
-                              className='h-12 w-12 rounded-lg object-cover'
-                            />
-                          ) : (
-                            <div className='h-12 w-12 rounded-lg bg-muted flex items-center justify-center'>
-                              <MapPin className='h-5 w-5 text-muted-foreground' />
-                            </div>
-                          )}
+                        <TableCell className='font-medium'>
+                          <Badge variant='outline'>{place.position}</Badge>
                         </TableCell>
                         <TableCell>
                           <div>
                             <p className='font-medium truncate max-w-[200px]' title={place.title}>
                               {place.title}
                             </p>
-                            <p className='text-xs text-muted-foreground'>{place.query}</p>
                           </div>
                         </TableCell>
                         <TableCell>
@@ -394,6 +384,9 @@ export function ScraperScreen() {
                           ) : (
                             '-'
                           )}
+                        </TableCell>
+                        <TableCell>
+                          <span className='text-xs text-muted-foreground'>{place.query}</span>
                         </TableCell>
                         <TableCell className='text-right'>
                           <Button variant='ghost' size='sm' onClick={() => setSelectedPlace(place)}>
