@@ -4,6 +4,7 @@ export const AppRoutes = {
     REGISTER: '/api/v1/auth/register',
     LOGOUT: '/api/v1/auth/logout',
     FORGOT_PASSWORD: '/api/v1/auth/forgot-password',
+    ME: '/api/v1/me',
   },
   DASHBOARD: {
     USER: '/api/v1/dashboard',
