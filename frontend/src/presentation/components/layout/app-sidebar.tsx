@@ -6,21 +6,18 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar'
-// import { AppTitle } from './app-title'
 import { sidebarData } from './data/sidebar-data'
 import { NavGroup } from './nav-group'
-import { TeamSwitcher } from './team-switcher'
+import { NavUser } from './nav-user'
 
 export function AppSidebar() {
   const { collapsible, variant } = useLayout()
   return (
     <Sidebar collapsible={collapsible} variant={variant}>
       <SidebarHeader>
-        <TeamSwitcher teams={sidebarData.teams} />
-
-        {/* Replace <TeamSwitch /> with the following <AppTitle />
-         /* if you want to use the normal app title instead of TeamSwitch dropdown */}
-        {/* <AppTitle /> */}
+        <div className='flex items-center gap-2 px-4 py-2'>
+          <h1 className='text-lg font-bold'>KatakanPeta</h1>
+        </div>
       </SidebarHeader>
       <SidebarContent>
         {sidebarData.navGroups.map((props) => (
@@ -28,9 +25,7 @@ export function AppSidebar() {
         ))}
       </SidebarContent>
       <SidebarFooter>
-        <p className='px-2 text-xs text-sidebar-foreground/60 group-data-[collapsible=icon]:hidden'>
-          OpenAI Codex
-        </p>
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

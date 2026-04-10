@@ -1,11 +1,8 @@
 import { Link } from '@tanstack/react-router'
 import {
   BadgeCheck,
-  Bell,
   ChevronsUpDown,
-  CreditCard,
   LogOut,
-  Sparkles,
 } from 'lucide-react'
 import useDialogState from '@/hooks/use-dialog-state'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -25,18 +22,18 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import { SignOutDialog } from '@/components/sign-out-dialog'
+import { useAuthStore } from '@/core/store/authStore'
 
-type NavUserProps = {
-  user: {
-    name: string
-    email: string
-    avatar: string
-  }
-}
-
-export function NavUser({ user }: NavUserProps) {
+export function NavUser() {
   const { isMobile } = useSidebar()
   const [open, setOpen] = useDialogState()
+  const authUser = useAuthStore((state) => state.user)
+
+  const user = {
+    name: authUser?.name || 'User',
+    email: authUser?.email || 'user@example.com',
+    avatar: '/avatars/shadcn.jpg',
+  }
 
   return (
     <>
