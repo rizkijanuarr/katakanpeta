@@ -4,6 +4,9 @@ import {
   Wrench,
   Users,
   Command,
+  Search,
+  CreditCard,
+  FileText,
 } from 'lucide-react'
 import { type SidebarData } from '../types'
 
@@ -29,20 +32,34 @@ export const sidebarData: SidebarData = {
           url: '/dashboard',
           icon: LayoutDashboard,
         },
+        {
+          title: 'Scraper',
+          url: '/scraper',
+          icon: Search,
+        },
+        {
+          title: 'Subscription',
+          url: '/subscription',
+          icon: CreditCard,
+        },
       ],
     },
     {
       title: 'Admin',
-      roles: ['ADMIN'], // Only ADMIN can see this group
+      roles: ['ADMIN'],
       items: [
         {
           title: 'Users',
           url: '/users',
           icon: Users,
         },
+        {
+          title: 'Transactions',
+          url: '/transactions',
+          icon: FileText,
+        },
       ],
     },
-
     {
       title: 'Other',
       items: [
@@ -61,4 +78,3 @@ export const sidebarData: SidebarData = {
     },
   ],
 }
-

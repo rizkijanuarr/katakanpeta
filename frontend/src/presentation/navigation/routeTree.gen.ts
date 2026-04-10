@@ -21,6 +21,9 @@ import { Route as authSignIn2RouteImport } from './routes/(auth)/sign-in-2'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
 import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authenticated/settings/route'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
+import { Route as AuthenticatedTransactionsIndexRouteImport } from './routes/_authenticated/transactions/index'
+import { Route as AuthenticatedSubscriptionIndexRouteImport } from './routes/_authenticated/subscription/index'
+import { Route as AuthenticatedScraperIndexRouteImport } from './routes/_authenticated/scraper/index'
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
@@ -86,6 +89,24 @@ const AuthenticatedUsersIndexRoute = AuthenticatedUsersIndexRouteImport.update({
   path: '/users/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedTransactionsIndexRoute =
+  AuthenticatedTransactionsIndexRouteImport.update({
+    id: '/transactions/',
+    path: '/transactions/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSubscriptionIndexRoute =
+  AuthenticatedSubscriptionIndexRouteImport.update({
+    id: '/subscription/',
+    path: '/subscription/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedScraperIndexRoute =
+  AuthenticatedScraperIndexRouteImport.update({
+    id: '/scraper/',
+    path: '/scraper/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedHelpCenterIndexRoute =
   AuthenticatedHelpCenterIndexRouteImport.update({
     id: '/help-center/',
@@ -126,6 +147,9 @@ export interface FileRoutesByFullPath {
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/help-center/': typeof AuthenticatedHelpCenterIndexRoute
+  '/scraper/': typeof AuthenticatedScraperIndexRoute
+  '/subscription/': typeof AuthenticatedSubscriptionIndexRoute
+  '/transactions/': typeof AuthenticatedTransactionsIndexRoute
   '/users/': typeof AuthenticatedUsersIndexRoute
 }
 export interface FileRoutesByTo {
@@ -143,6 +167,9 @@ export interface FileRoutesByTo {
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
+  '/scraper': typeof AuthenticatedScraperIndexRoute
+  '/subscription': typeof AuthenticatedSubscriptionIndexRoute
+  '/transactions': typeof AuthenticatedTransactionsIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
 }
 export interface FileRoutesById {
@@ -162,6 +189,9 @@ export interface FileRoutesById {
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
+  '/_authenticated/scraper/': typeof AuthenticatedScraperIndexRoute
+  '/_authenticated/subscription/': typeof AuthenticatedSubscriptionIndexRoute
+  '/_authenticated/transactions/': typeof AuthenticatedTransactionsIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
 }
 export interface FileRouteTypes {
@@ -181,6 +211,9 @@ export interface FileRouteTypes {
     | '/settings/account'
     | '/dashboard/'
     | '/help-center/'
+    | '/scraper/'
+    | '/subscription/'
+    | '/transactions/'
     | '/users/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -198,6 +231,9 @@ export interface FileRouteTypes {
     | '/settings/account'
     | '/dashboard'
     | '/help-center'
+    | '/scraper'
+    | '/subscription'
+    | '/transactions'
     | '/users'
   id:
     | '__root__'
@@ -216,6 +252,9 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/account'
     | '/_authenticated/dashboard/'
     | '/_authenticated/help-center/'
+    | '/_authenticated/scraper/'
+    | '/_authenticated/subscription/'
+    | '/_authenticated/transactions/'
     | '/_authenticated/users/'
   fileRoutesById: FileRoutesById
 }
@@ -318,6 +357,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUsersIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/transactions/': {
+      id: '/_authenticated/transactions/'
+      path: '/transactions'
+      fullPath: '/transactions/'
+      preLoaderRoute: typeof AuthenticatedTransactionsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/subscription/': {
+      id: '/_authenticated/subscription/'
+      path: '/subscription'
+      fullPath: '/subscription/'
+      preLoaderRoute: typeof AuthenticatedSubscriptionIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/scraper/': {
+      id: '/_authenticated/scraper/'
+      path: '/scraper'
+      fullPath: '/scraper/'
+      preLoaderRoute: typeof AuthenticatedScraperIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/help-center/': {
       id: '/_authenticated/help-center/'
       path: '/help-center'
@@ -368,6 +428,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
+  AuthenticatedScraperIndexRoute: typeof AuthenticatedScraperIndexRoute
+  AuthenticatedSubscriptionIndexRoute: typeof AuthenticatedSubscriptionIndexRoute
+  AuthenticatedTransactionsIndexRoute: typeof AuthenticatedTransactionsIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
 }
 
@@ -376,6 +439,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
   AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
+  AuthenticatedScraperIndexRoute: AuthenticatedScraperIndexRoute,
+  AuthenticatedSubscriptionIndexRoute: AuthenticatedSubscriptionIndexRoute,
+  AuthenticatedTransactionsIndexRoute: AuthenticatedTransactionsIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
 }
 
