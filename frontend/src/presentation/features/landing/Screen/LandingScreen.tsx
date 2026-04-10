@@ -6,7 +6,7 @@ function Navbar() {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn)
 
   return (
-    <nav className='flex items-center justify-between border-b px-8 py-4 lg:px-16'>
+    <nav className='flex items-center justify-between border-b px-8 py-6 lg:px-16'>
       <Link
         to='/'
         className='font-["Bebas_Neue"] text-2xl tracking-[-0.5px] text-black hover:opacity-80'
@@ -47,21 +47,21 @@ function HeroSection() {
     <main
       className='flex flex-1 flex-col items-center justify-center px-8 text-center'
     >
-      <h1 className='font-["Bebas_Neue"] mb-4 max-w-[820px] text-[clamp(2.5rem,5vw,4rem)] leading-[1.05] tracking-[0.5px] text-black'>
+      <h1 className='font-["Bebas_Neue"] mb-6 max-w-[820px] text-[clamp(3rem,7vw,5.5rem)] leading-[1.0] tracking-[1px] text-black'>
         Cari data klien seharga esteh di warung!
       </h1>
-      <p className='mx-auto mb-6 max-w-[520px] text-[clamp(0.9rem,1.8vw,1.1rem)] leading-[1.6] text-neutral-500'>
+      <p className='mx-auto mb-8 max-w-[520px] text-[clamp(1rem,2vw,1.25rem)] leading-[1.6] text-neutral-500'>
         KatakanPeta membantu kamu menemukan ratusan calon klien dari Google Maps secara otomatis.
       </p>
       {isLoggedIn ? (
         <Link to='/dashboard'>
-          <Button className='rounded bg-black px-8 py-3 text-base font-medium text-white hover:bg-neutral-800 hover:-translate-y-0.5 hover:shadow-lg transition-all'>
+          <Button className='rounded bg-black px-10 py-4 text-lg font-medium text-white hover:bg-neutral-800 hover:-translate-y-0.5 hover:shadow-lg transition-all'>
             Kembali ke Dashboard
           </Button>
         </Link>
       ) : (
         <Link to='/sign-up'>
-          <Button className='rounded bg-black px-8 py-3 text-base font-medium text-white hover:bg-neutral-800 hover:-translate-y-0.5 hover:shadow-lg transition-all'>
+          <Button className='rounded bg-black px-10 py-4 text-lg font-medium text-white hover:bg-neutral-800 hover:-translate-y-0.5 hover:shadow-lg transition-all'>
             Mulai Sekarang
           </Button>
         </Link>
@@ -72,7 +72,7 @@ function HeroSection() {
 
 function Footer() {
   return (
-    <footer className='border-t px-8 py-3 text-center text-sm text-neutral-500 lg:px-16'>
+    <footer className='border-t px-8 py-4 text-center text-sm text-neutral-500 lg:px-16'>
       Crafted by{' '}
       <a
         href='https://www.rzkjanuarr.com'
