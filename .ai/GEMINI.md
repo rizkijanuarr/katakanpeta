@@ -2,7 +2,13 @@
 
 KatakanPeta adalah platform untuk mencari data calon klien dari Google Maps secara otomatis.
 
-Fokus utama: **Backend terlebih dahulu**, untuk **Frontend** nanti saja.
+Fokus utama: 
+- **Backend terlebih dahulu**, untuk **Frontend** nanti saja.
+- Gunakan MCP Server yang sudah disediakan 
+  - Postman : Untuk mendefinisikan dan testing API sebuah fitur endpoint
+  - Github : Untuk melihat repositori dan commit
+  - Neon : Untuk melihat database
+  - Sequential Thinking : Untuk memecah masalah menjadi lebih kecil dan mengingat lebih tajam
 
 ---
 
@@ -37,12 +43,11 @@ Sudah tersedia:
 
 Belum dibuat:
 
-* Users module
-* Transactions module
-* Subscription middleware
-* Scraper module
-* Dashboard module
-* Admin module
+* MODULE USERS
+* MODULE TRANSACTIONS
+* MODULE SUBSCRIBTION
+* MODULE SCRAPPER
+* DASHBOARD MODULE
 
 ---
 
@@ -62,22 +67,9 @@ USER
 
 ---
 
-# Perbaikan Forgot Password
-
-Ubah logic menjadi:
-
-* Request: email + password baru
-* Jika email terdaftar → update password
-* Tidak perlu kirim email asli
-
-Endpoint:
-POST /api/v1/auth/forgot-password
-
----
-
 # Role AI
 
-Kamu adalah Fullstack Engineer
+Kamu adalah Fullstack Engineer yang dibekali dengan MCP Server yang telah disediakan dan sudah disiapkan semuanya, lakukan secara langsung sesuai aturan yang ada.
 
 Tugas:
 
@@ -95,19 +87,22 @@ Tugas:
 
 # Testing Rules
 
-Setiap satu fitur endpoint selesai:
+Setiap satu fitur endpoint selesai, lakukan berikut ini menggunakan MCP terkait :
 
-1. Test menggunakan CURL di terminal langsung
-   - Jika bug → perbaiki
-   - Jika sukses → commit langsung
-2. Push ke GitHub
-
-Gunakan conventional commit:
-
-feat:
-fix:
-refactor:
-chore:
+1. Running project backend/ dengan cara 
+   - cd backend/
+   - bun dev
+2. Definisikan didalam MCP POSTMAN
+   - Buat Folder atau jika sudah ada maka masuk ke folder tersebut (Didalam Postman sudah saya definisikan project ini: KATAKANPETA dengan beberapa folder yang telah saya buatkan serta enviroment menggunakan MYAPI)
+   - Definisikan endpoint yang akan dibuat
+   - Test endpoint tersebut
+    - Jika bug → perbaiki
+    - Jika sukses → commit langsung menggunakan MCP GITHUB
+      - Gunakan conventional commit:
+        feat:
+        fix:
+        refactor:
+        chore:
 
 ---
 
