@@ -32,12 +32,7 @@ export function SubscriptionScreen() {
   if (isLoading) {
     return (
       <>
-        <Header>
-          <div className='ms-auto flex items-center space-x-4'>
-            <ThemeSwitch />
-            <ProfileDropdown />
-          </div>
-        </Header>
+        <Header />
         <Main>
           <div className='space-y-4'>
             <Skeleton className='h-8 w-[200px]' />
