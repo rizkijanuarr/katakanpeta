@@ -10,6 +10,7 @@ import { sidebarData } from './data/sidebar-data'
 import { NavGroup } from './nav-group'
 import { NavUser } from './nav-user'
 import { useAuthStore } from '@/core/store/authStore'
+import { ThemeSwitch } from '@/components/theme-switch'
 
 export function AppSidebar() {
   const { collapsible, variant } = useLayout()
@@ -34,6 +35,9 @@ export function AppSidebar() {
         ))}
       </SidebarContent>
       <SidebarFooter>
+        <div className='flex items-center gap-2 px-2 py-2'>
+          <ThemeSwitch />
+        </div>
         <NavUser />
       </SidebarFooter>
       <SidebarRail />
