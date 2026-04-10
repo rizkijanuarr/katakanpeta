@@ -10,6 +10,8 @@ import { LoginControllerImpl, RegisterControllerImpl, UserControllerImpl, Transa
 import { LoginServiceImpl, RegisterServiceImpl, UserServiceImplV1, TransactionServiceImplV1, ScrapeServiceImplV1, DashboardServiceImplV1 } from './service';
 import { ForgotPasswordControllerImpl } from './controller/auth/impl/ForgotPasswordControllerImpl';
 import { MeControllerImpl } from './controller/auth/impl/MeControllerImpl';
+import { LogoutControllerImpl } from './controller/auth/impl/LogoutControllerImpl';
+import { LogoutServiceImpl } from './service/auth/impl/LogoutServiceImpl';
 
 dotenv.config();
 
@@ -33,6 +35,9 @@ const registerController = new RegisterControllerImpl(registerService, new Logge
 const forgotPasswordController = new ForgotPasswordControllerImpl();
 const meController = new MeControllerImpl();
 
+const logoutService = new LogoutServiceImpl();
+const logoutController = new LogoutControllerImpl(logoutService, new Logger('auth-routes'));
+
 const userService = new UserServiceImplV1(new Logger('user-service'));
 const userController = new UserControllerImpl(userService, new Logger('user-routes'));
 
@@ -51,6 +56,7 @@ registerControllers(app, [
     registerController,
     forgotPasswordController,
     meController,
+    logoutController,
     userController,
     transactionController,
     scrapeController,

@@ -98,6 +98,14 @@ class NetworkModule {
         // 7. Parse JSON
         const json = await checkResponseJson<T>(response);
 
+        // 8. Handle backend error response (success: false)
+        if (json && typeof json === 'object' && 'success' in json) {
+            const backendResponse = json as any;
+            if (backendResponse.success === false && backendResponse.message) {
+                throw new Error(backendResponse.message);
+            }
+        }
+
         return json;
     }
 }

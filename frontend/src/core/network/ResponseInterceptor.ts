@@ -44,18 +44,23 @@ export const responseInterceptor = (response: Response): void => {
 
     switch (code) {
         case 400: {
-            console.error('App response error', code);
             throw new Error(ErrorMessage.BAD_REQUEST);
         }
         case 401: {
-            console.error('App response error', code);
-            throw new Error(ErrorMessage.ACCOUNT_NOT_FOUND);
+            // Unauthorized - redirect to login
+            throw new Error('Unauthorized. Please login again.');
+        }
+        case 403: {
+            throw new Error('Access forbidden. You do not have permission.');
+        }
+        case 404: {
+            throw new Error('Resource not found.');
         }
         default: {
             if (code >= 500 && code <= 599) {
-                console.error('App response error', code);
                 throw new Error(ErrorMessage.INTERNAL_SERVER_ERROR);
             }
+            throw new Error(`Request failed with status ${code}`);
         }
     }
 };

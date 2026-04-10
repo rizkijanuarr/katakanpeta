@@ -1,21 +1,15 @@
-import { SignInService } from '../Service/SignInService'
+import { networkModule } from '@/core/network/NetworkModule'
+import { AppRoutes } from '@/core/common/AppRoutes'
 import { SignInResponse } from '../Response/SignInResponse'
 
-// Ini mock API untuk contoh, nanti bisa diganti dengan axios dari NetworkModule
 export const SignInRepository = {
-  login: async (credentials: any): Promise<SignInResponse> => {
-    // Simulasi loading selama 2 detik
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          token: "mock-jwt-token-12345",
-          user: {
-            id: "u-1",
-            name: "Admin User",
-            email: credentials.email,
-          }
-        })
-      }, 2000)
+  login: async (credentials: { email: string; password: string }): Promise<SignInResponse['data']> => {
+    const response = await networkModule.request<SignInResponse>(AppRoutes.AUTH.LOGIN, {
+      method: 'POST',
+      body: credentials,
     })
+    
+    // Return data langsung agar lebih mudah dipakai di ViewModel
+    return response.data
   }
 }
