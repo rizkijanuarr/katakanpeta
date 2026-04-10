@@ -107,7 +107,7 @@ export function ScraperScreen() {
               Search and scrape business data from Google Maps
             </p>
           </div>
-          <Button variant='outline' onClick={fetchLogs}>
+          <Button variant='outline' onClick={() => { setShowLogs(true); fetchLogs(); }}>
             <History className='mr-2 h-4 w-4' />
             View Logs
           </Button>
