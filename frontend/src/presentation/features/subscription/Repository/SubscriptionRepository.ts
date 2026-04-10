@@ -12,26 +12,18 @@ export interface Subscription {
   modifieddate: string | null
 }
 
-export interface SubscribeResponse {
-  success: boolean
-  message: string
-  data: Subscription
-}
-
 export const SubscriptionRepository = {
   subscribe: async (): Promise<Subscription> => {
-    const response = await networkModule.request<SubscribeResponse>(AppRoutes.TRANSACTIONS.SUBSCRIBE, {
+    return await networkModule.request<Subscription>(AppRoutes.TRANSACTIONS.SUBSCRIBE, {
       method: 'POST',
       requiresAuth: true,
     })
-    return response.data
   },
 
   getMyTransactions: async (): Promise<Subscription[]> => {
-    const response = await networkModule.request<{ success: boolean; message: string; data: Subscription[] }>(AppRoutes.TRANSACTIONS.MY_TRANSACTIONS, {
+    return await networkModule.request<Subscription[]>(AppRoutes.TRANSACTIONS.MY_TRANSACTIONS, {
       method: 'GET',
       requiresAuth: true,
     })
-    return response.data
   },
 }

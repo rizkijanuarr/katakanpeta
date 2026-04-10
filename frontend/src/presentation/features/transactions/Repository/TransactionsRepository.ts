@@ -16,28 +16,25 @@ export interface Transaction {
 
 export const TransactionsRepository = {
   getAllTransactions: async (): Promise<Transaction[]> => {
-    const response = await networkModule.request<{ success: boolean; message: string; data: Transaction[] }>(AppRoutes.TRANSACTIONS.GET_ALL, {
+    return await networkModule.request<Transaction[]>(AppRoutes.TRANSACTIONS.GET_ALL, {
       method: 'GET',
       requiresAuth: true,
     })
-    return response.data
   },
 
   approveTransaction: async (id: string): Promise<Transaction> => {
     const endpoint = AppRoutes.TRANSACTIONS.APPROVE.replace(':id', id)
-    const response = await networkModule.request<{ success: boolean; message: string; data: Transaction }>(endpoint, {
+    return await networkModule.request<Transaction>(endpoint, {
       method: 'POST',
       requiresAuth: true,
     })
-    return response.data
   },
 
   rejectTransaction: async (id: string): Promise<Transaction> => {
     const endpoint = AppRoutes.TRANSACTIONS.REJECT.replace(':id', id)
-    const response = await networkModule.request<{ success: boolean; message: string; data: Transaction }>(endpoint, {
+    return await networkModule.request<Transaction>(endpoint, {
       method: 'POST',
       requiresAuth: true,
     })
-    return response.data
   },
 }
