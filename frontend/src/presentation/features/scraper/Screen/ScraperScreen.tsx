@@ -21,11 +21,13 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useScraperViewModel } from '../ViewModel/ScraperViewModel'
-import { Search, Loader2, Star, MapPin, Phone, Globe, ExternalLink } from 'lucide-react'
+import { Search, Loader2, Star, MapPin, Phone, Globe, ExternalLink, Eye } from 'lucide-react'
+import { useState } from 'react'
 import { ScrapeLog } from '../Repository/ScraperRepository'
 
 const scrapeFormSchema = z.object({
@@ -45,15 +47,17 @@ interface PlaceRow {
   title: string
   types: string[]
   rating: number | null
+  ratingCount: number | null
   address: string | null
   lat: number | null
   lng: number | null
-  ratingCount: number | null
   website: string | null
   phoneNumber: string | null
   openingHours: string | null
   thumbnailUrl: string | null
   type: string | null
+  bookingLinks: string[]
+  placeId: string
 }
 
 function flattenLogsToPlaces(logs: ScrapeLog[]): PlaceRow[] {
@@ -74,24 +78,151 @@ function flattenLogsToPlaces(logs: ScrapeLog[]): PlaceRow[] {
         title: place.title || '-',
         types: place.types || [],
         rating: place.rating || null,
+        ratingCount: place.ratingCount || null,
         address: place.address || null,
         lat: place.latitude || null,
         lng: place.longitude || null,
-        ratingCount: place.ratingCount || null,
         website: place.website || null,
         phoneNumber: place.phoneNumber || null,
         openingHours: openingHoursStr,
         thumbnailUrl: place.thumbnailUrl || null,
         type: place.type || null,
+        bookingLinks: place.bookingLinks || [],
+        placeId: place.placeId || '',
       })
     })
   })
   return places
 }
 
+function PlaceDetailDialog({ place, open, onOpenChange }: { place: PlaceRow | null; open: boolean; onOpenChange: (open: boolean) => void }) {
+  if (!place) return null
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className='max-w-2xl max-h-[80vh] overflow-y-auto'>
+        <DialogHeader>
+          <DialogTitle className='flex items-center gap-3'>
+            {place.thumbnailUrl && (
+              <img src={place.thumbnailUrl} alt={place.title} className='h-12 w-12 rounded-lg object-cover' />
+            )}
+            <div>
+              {place.title}
+              <p className='text-sm text-muted-foreground font-normal'>{place.type}</p>
+            </div>
+          </DialogTitle>
+          <DialogDescription>
+            Scraped from: {place.query} • {place.scrapeDate}
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className='grid gap-4 py-4'>
+          {/* Rating */}
+          {place.rating && (
+            <div className='flex items-center gap-4'>
+              <div className='w-32 text-sm text-muted-foreground'>Rating</div>
+              <div className='flex items-center gap-1'>
+                <Star className='h-4 w-4 fill-yellow-400 text-yellow-400' />
+                <span className='font-bold text-lg'>{place.rating}</span>
+                <span className='text-sm text-muted-foreground'>({place.ratingCount} reviews)</span>
+              </div>
+            </div>
+          )}
+
+          {/* Address */}
+          {place.address && (
+            <div className='flex items-start gap-4'>
+              <div className='w-32 text-sm text-muted-foreground flex items-center gap-1'>
+                <MapPin className='h-4 w-4' />
+                Address
+              </div>
+              <div className='flex-1'>{place.address}</div>
+            </div>
+          )}
+
+          {/* Coordinates */}
+          {place.lat && place.lng && (
+            <div className='flex items-center gap-4'>
+              <div className='w-32 text-sm text-muted-foreground'>Coordinates</div>
+              <div className='font-mono text-sm'>{place.lat.toFixed(6)}, {place.lng.toFixed(6)}</div>
+            </div>
+          )}
+
+          {/* Phone */}
+          {place.phoneNumber && (
+            <div className='flex items-center gap-4'>
+              <div className='w-32 text-sm text-muted-foreground flex items-center gap-1'>
+                <Phone className='h-4 w-4' />
+                Phone
+              </div>
+              <div>{place.phoneNumber}</div>
+            </div>
+          )}
+
+          {/* Website */}
+          {place.website && (
+            <div className='flex items-center gap-4'>
+              <div className='w-32 text-sm text-muted-foreground flex items-center gap-1'>
+                <Globe className='h-4 w-4' />
+                Website
+              </div>
+              <a
+                href={place.website}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='text-blue-500 hover:underline flex items-center gap-1'
+              >
+                {place.website}
+                <ExternalLink className='h-3 w-3' />
+              </a>
+            </div>
+          )}
+
+          {/* Opening Hours */}
+          {place.openingHours && (
+            <div className='flex items-start gap-4'>
+              <div className='w-32 text-sm text-muted-foreground'>Opening Hours</div>
+              <div className='text-sm whitespace-pre-line'>{place.openingHours.replace(/, /g, '\n')}</div>
+            </div>
+          )}
+
+          {/* Booking Links */}
+          {place.bookingLinks && place.bookingLinks.length > 0 && (
+            <div className='flex items-start gap-4'>
+              <div className='w-32 text-sm text-muted-foreground'>Booking</div>
+              <div className='space-y-1'>
+                {place.bookingLinks.map((link, i) => (
+                  <a
+                    key={i}
+                    href={link}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='text-blue-500 hover:underline text-sm block'
+                  >
+                    Booking Link {i + 1}
+                    <ExternalLink className='h-3 w-3 inline ml-1' />
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Place ID */}
+          {place.placeId && (
+            <div className='flex items-center gap-4'>
+              <div className='w-32 text-sm text-muted-foreground'>Place ID</div>
+              <code className='text-xs bg-muted px-2 py-1 rounded'>{place.placeId}</code>
+            </div>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 export function ScraperScreen() {
-  const { isLoading, logsLoading, scrapeResult, logs, handleScrape, fetchLogs } =
-    useScraperViewModel()
+  const { isLoading, logsLoading, logs, handleScrape } = useScraperViewModel()
+  const [selectedPlace, setSelectedPlace] = useState<PlaceRow | null>(null)
 
   const form = useForm<ScrapeFormValues>({
     resolver: zodResolver(scrapeFormSchema),
@@ -202,7 +333,7 @@ export function ScraperScreen() {
           <CardHeader>
             <CardTitle>Scraped Results</CardTitle>
             <CardDescription>
-              {places.length} places found from {logs.length} scrape operations
+              {places.length} places from {logs.length} scrape operations
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -213,36 +344,39 @@ export function ScraperScreen() {
                 ))}
               </div>
             ) : places.length > 0 ? (
-              <div className='rounded-md border overflow-x-auto'>
+              <div className='rounded-md border'>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>#</TableHead>
+                      <TableHead>Thumbnail</TableHead>
                       <TableHead>Title</TableHead>
                       <TableHead>Type</TableHead>
                       <TableHead>Rating</TableHead>
-                      <TableHead>Address</TableHead>
-                      <TableHead>Lat / Lng</TableHead>
-                      <TableHead>Website</TableHead>
-                      <TableHead>Phone</TableHead>
-                      <TableHead>Opening Hours</TableHead>
+                      <TableHead className='text-right'>Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {places.map((place) => (
                       <TableRow key={place.id}>
-                        <TableCell className='font-medium'>
-                          <Badge variant='outline'>{place.position}</Badge>
+                        <TableCell>
+                          {place.thumbnailUrl ? (
+                            <img
+                              src={place.thumbnailUrl}
+                              alt={place.title}
+                              className='h-12 w-12 rounded-lg object-cover'
+                            />
+                          ) : (
+                            <div className='h-12 w-12 rounded-lg bg-muted flex items-center justify-center'>
+                              <MapPin className='h-5 w-5 text-muted-foreground' />
+                            </div>
+                          )}
                         </TableCell>
                         <TableCell>
-                          <div className='max-w-[200px]'>
-                            <p className='font-medium truncate' title={place.title}>
+                          <div>
+                            <p className='font-medium truncate max-w-[200px]' title={place.title}>
                               {place.title}
                             </p>
-                            <p className='text-xs text-muted-foreground truncate' title={place.query}>
-                              {place.query}
-                            </p>
-                            <p className='text-xs text-muted-foreground'>{place.scrapeDate}</p>
+                            <p className='text-xs text-muted-foreground'>{place.query}</p>
                           </div>
                         </TableCell>
                         <TableCell>
@@ -251,65 +385,21 @@ export function ScraperScreen() {
                           )}
                         </TableCell>
                         <TableCell>
-                          {place.rating && (
+                          {place.rating ? (
                             <div className='flex items-center gap-1'>
                               <Star className='h-3 w-3 fill-yellow-400 text-yellow-400' />
                               <span className='font-medium'>{place.rating}</span>
                               <span className='text-xs text-muted-foreground'>({place.ratingCount})</span>
                             </div>
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          <div className='flex items-start gap-1 max-w-[150px]'>
-                            <MapPin className='h-3 w-3 mt-1 flex-shrink-0' />
-                            <span className='text-xs truncate' title={place.address || '-'}>
-                              {place.address || '-'}
-                            </span>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          {place.lat && place.lng ? (
-                            <span className='text-xs'>
-                              {place.lat.toFixed(4)}, {place.lng.toFixed(4)}
-                            </span>
                           ) : (
                             '-'
                           )}
                         </TableCell>
-                        <TableCell>
-                          {place.website ? (
-                            <a
-                              href={place.website}
-                              target='_blank'
-                              rel='noopener noreferrer'
-                              className='text-xs text-blue-500 hover:underline flex items-center gap-1'
-                            >
-                              <Globe className='h-3 w-3' />
-                              Website
-                              <ExternalLink className='h-3 w-3' />
-                            </a>
-                          ) : (
-                            '-'
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {place.phoneNumber ? (
-                            <span className='text-xs flex items-center gap-1'>
-                              <Phone className='h-3 w-3' />
-                              {place.phoneNumber}
-                            </span>
-                          ) : (
-                            '-'
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {place.openingHours ? (
-                            <span className='text-xs max-w-[150px] truncate' title={place.openingHours}>
-                              {place.openingHours}
-                            </span>
-                          ) : (
-                            '-'
-                          )}
+                        <TableCell className='text-right'>
+                          <Button variant='ghost' size='sm' onClick={() => setSelectedPlace(place)}>
+                            <Eye className='mr-1 h-4 w-4' />
+                            View
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -327,6 +417,13 @@ export function ScraperScreen() {
             )}
           </CardContent>
         </Card>
+
+        {/* Place Detail Dialog */}
+        <PlaceDetailDialog
+          place={selectedPlace}
+          open={!!selectedPlace}
+          onOpenChange={(open) => !open && setSelectedPlace(null)}
+        />
       </Main>
     </>
   )
