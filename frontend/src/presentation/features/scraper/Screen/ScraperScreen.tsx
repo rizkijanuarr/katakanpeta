@@ -25,8 +25,8 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useScraperViewModel } from '../ViewModel/ScraperViewModel'
-import { Search, Loader2, Eye } from 'lucide-react'
-import { useState } from 'react'
+import { Search, Loader2, Star, MapPin, Phone, Globe, ExternalLink } from 'lucide-react'
+import { ScrapeLog } from '../Repository/ScraperRepository'
 
 const scrapeFormSchema = z.object({
   query: z.string().min(1, 'Search query is required'),
@@ -36,17 +36,62 @@ const scrapeFormSchema = z.object({
 
 type ScrapeFormValues = z.infer<typeof scrapeFormSchema>
 
-export function ScraperScreen() {
-  const {
-    isLoading,
-    logsLoading,
-    scrapeResult,
-    logs,
-    handleScrape,
-    fetchLogs,
-  } = useScraperViewModel()
+interface PlaceRow {
+  id: string
+  logId: string
+  query: string
+  scrapeDate: string
+  position: number
+  title: string
+  types: string[]
+  rating: number | null
+  address: string | null
+  lat: number | null
+  lng: number | null
+  ratingCount: number | null
+  website: string | null
+  phoneNumber: string | null
+  openingHours: string | null
+  thumbnailUrl: string | null
+  type: string | null
+}
 
-  const [showResponse, setShowResponse] = useState<string | null>(null)
+function flattenLogsToPlaces(logs: ScrapeLog[]): PlaceRow[] {
+  const places: PlaceRow[] = []
+  logs.forEach((log) => {
+    const placesArray = log.response_body?.places || []
+    placesArray.forEach((place: any) => {
+      const openingHoursStr = place.openingHours
+        ? Object.entries(place.openingHours).map(([day, hours]) => `${day}: ${hours}`).join(', ')
+        : null
+
+      places.push({
+        id: `${log.id}-${place.position}`,
+        logId: log.id,
+        query: log.query,
+        scrapeDate: new Date(log.createddate).toLocaleString(),
+        position: place.position,
+        title: place.title || '-',
+        types: place.types || [],
+        rating: place.rating || null,
+        address: place.address || null,
+        lat: place.latitude || null,
+        lng: place.longitude || null,
+        ratingCount: place.ratingCount || null,
+        website: place.website || null,
+        phoneNumber: place.phoneNumber || null,
+        openingHours: openingHoursStr,
+        thumbnailUrl: place.thumbnailUrl || null,
+        type: place.type || null,
+      })
+    })
+  })
+  return places
+}
+
+export function ScraperScreen() {
+  const { isLoading, logsLoading, scrapeResult, logs, handleScrape, fetchLogs } =
+    useScraperViewModel()
 
   const form = useForm<ScrapeFormValues>({
     resolver: zodResolver(scrapeFormSchema),
@@ -62,6 +107,8 @@ export function ScraperScreen() {
     form.reset({ query: data.query, num: data.num, page: data.page })
   }
 
+  const places = flattenLogsToPlaces(logs)
+
   return (
     <>
       <Header />
@@ -74,7 +121,7 @@ export function ScraperScreen() {
           </p>
         </div>
 
-        {/* Action Form */}
+        {/* Search Form */}
         <Card className='mb-6'>
           <CardHeader>
             <CardTitle className='flex items-center gap-2'>
@@ -150,11 +197,13 @@ export function ScraperScreen() {
           </CardContent>
         </Card>
 
-        {/* Scrape History Table */}
+        {/* Results Table */}
         <Card>
           <CardHeader>
-            <CardTitle>Scrape History</CardTitle>
-            <CardDescription>Your recent scrape operations</CardDescription>
+            <CardTitle>Scraped Results</CardTitle>
+            <CardDescription>
+              {places.length} places found from {logs.length} scrape operations
+            </CardDescription>
           </CardHeader>
           <CardContent>
             {logsLoading ? (
@@ -163,75 +212,116 @@ export function ScraperScreen() {
                   <Skeleton key={i} className='h-16 w-full' />
                 ))}
               </div>
-            ) : logs.length > 0 ? (
-              <div className='rounded-md border'>
+            ) : places.length > 0 ? (
+              <div className='rounded-md border overflow-x-auto'>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Query</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Results</TableHead>
-                      <TableHead>Credits</TableHead>
-                      <TableHead className='text-right'>Actions</TableHead>
+                      <TableHead>#</TableHead>
+                      <TableHead>Title</TableHead>
+                      <TableHead>Type</TableHead>
+                      <TableHead>Rating</TableHead>
+                      <TableHead>Address</TableHead>
+                      <TableHead>Lat / Lng</TableHead>
+                      <TableHead>Website</TableHead>
+                      <TableHead>Phone</TableHead>
+                      <TableHead>Opening Hours</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {logs.map((log) => (
-                      <TableRow key={log.id}>
-                        <TableCell className='font-medium'>{log.query}</TableCell>
-                        <TableCell>
-                          {new Date(log.createddate).toLocaleString()}
+                    {places.map((place) => (
+                      <TableRow key={place.id}>
+                        <TableCell className='font-medium'>
+                          <Badge variant='outline'>{place.position}</Badge>
                         </TableCell>
                         <TableCell>
-                          <Badge variant='secondary'>
-                            {log.response_body?.places?.length || 0}
-                          </Badge>
+                          <div className='max-w-[200px]'>
+                            <p className='font-medium truncate' title={place.title}>
+                              {place.title}
+                            </p>
+                            <p className='text-xs text-muted-foreground truncate' title={place.query}>
+                              {place.query}
+                            </p>
+                            <p className='text-xs text-muted-foreground'>{place.scrapeDate}</p>
+                          </div>
                         </TableCell>
                         <TableCell>
-                          <Badge variant='outline'>
-                            {log.response_body?.credits || 0}
-                          </Badge>
+                          {place.type && (
+                            <Badge variant='secondary'>{place.type}</Badge>
+                          )}
                         </TableCell>
-                        <TableCell className='text-right'>
-                          <Button
-                            variant='ghost'
-                            size='sm'
-                            onClick={() => setShowResponse(showResponse === log.id ? null : log.id)}
-                          >
-                            <Eye className='mr-1 h-4 w-4' />
-                            View
-                          </Button>
+                        <TableCell>
+                          {place.rating && (
+                            <div className='flex items-center gap-1'>
+                              <Star className='h-3 w-3 fill-yellow-400 text-yellow-400' />
+                              <span className='font-medium'>{place.rating}</span>
+                              <span className='text-xs text-muted-foreground'>({place.ratingCount})</span>
+                            </div>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <div className='flex items-start gap-1 max-w-[150px]'>
+                            <MapPin className='h-3 w-3 mt-1 flex-shrink-0' />
+                            <span className='text-xs truncate' title={place.address || '-'}>
+                              {place.address || '-'}
+                            </span>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          {place.lat && place.lng ? (
+                            <span className='text-xs'>
+                              {place.lat.toFixed(4)}, {place.lng.toFixed(4)}
+                            </span>
+                          ) : (
+                            '-'
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {place.website ? (
+                            <a
+                              href={place.website}
+                              target='_blank'
+                              rel='noopener noreferrer'
+                              className='text-xs text-blue-500 hover:underline flex items-center gap-1'
+                            >
+                              <Globe className='h-3 w-3' />
+                              Website
+                              <ExternalLink className='h-3 w-3' />
+                            </a>
+                          ) : (
+                            '-'
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {place.phoneNumber ? (
+                            <span className='text-xs flex items-center gap-1'>
+                              <Phone className='h-3 w-3' />
+                              {place.phoneNumber}
+                            </span>
+                          ) : (
+                            '-'
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {place.openingHours ? (
+                            <span className='text-xs max-w-[150px] truncate' title={place.openingHours}>
+                              {place.openingHours}
+                            </span>
+                          ) : (
+                            '-'
+                          )}
                         </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
                 </Table>
-
-                {/* Response Body Viewer */}
-                {showResponse && (
-                  <div className='border-t p-4'>
-                    <div className='flex items-center justify-between mb-2'>
-                      <h4 className='font-medium'>Response Details</h4>
-                      <Button variant='ghost' size='sm' onClick={() => setShowResponse(null)}>
-                        Close
-                      </Button>
-                    </div>
-                    <pre className='bg-muted p-4 rounded-lg overflow-auto max-h-[400px] text-xs'>
-                      {JSON.stringify(
-                        logs.find((l) => l.id === showResponse)?.response_body,
-                        null,
-                        2
-                      )}
-                    </pre>
-                  </div>
-                )}
               </div>
             ) : (
               <div className='flex h-[300px] flex-col items-center justify-center text-center'>
                 <Search className='h-12 w-12 text-muted-foreground mb-4 opacity-50' />
-                <h2 className='text-xl font-semibold mb-2'>No scrape history yet</h2>
+                <h2 className='text-xl font-semibold mb-2'>No results yet</h2>
                 <p className='text-muted-foreground'>
-                  Start scraping to see your history here
+                  Start scraping to see business data here
                 </p>
               </div>
             )}
