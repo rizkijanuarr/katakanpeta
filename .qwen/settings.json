@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(sleep *)",
-      "Bash(curl *)"
-    ]
-  },
-  "$version": 3
-}
