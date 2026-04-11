@@ -9,7 +9,7 @@ function Navbar() {
     <nav className='flex items-center justify-between border-b px-8 py-6 lg:px-16 dark:border-neutral-800 dark:bg-neutral-950'>
       <Link
         to='/'
-        className='font-["Bebas_Neue"] text-2xl tracking-[-0.5px] text-black hover:opacity-80 dark:text-white'
+        className='font-["Bebas_Neue"] text-4xl tracking-[-0.5px] text-black hover:opacity-80 dark:text-white'
       >
         KatakanPeta
       </Link>
@@ -26,11 +26,11 @@ function Navbar() {
               to='/sign-in-2'
               className='text-base font-medium text-black transition-opacity hover:opacity-60 dark:text-white'
             >
-              Sign in
+              Masuk
             </Link>
             <Link to='/sign-up'>
               <Button className='rounded bg-black px-6 py-6 font-medium text-white hover:bg-neutral-800 hover:-translate-y-0.5 transition-all dark:bg-white dark:text-black dark:hover:bg-neutral-200'>
-                Get Started
+                Daftar
               </Button>
             </Link>
           </>
